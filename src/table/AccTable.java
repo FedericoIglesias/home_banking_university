@@ -1,8 +1,5 @@
 package table;
 
-import java.awt.event.ActionEvent;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -44,7 +41,7 @@ public class AccTable extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		if(accList == null) {
+		if (accList == null) {
 			return 0;
 		}
 		return accList.size();
@@ -60,26 +57,26 @@ public class AccTable extends AbstractTableModel {
 		Account a = accList.get(rowIndex);
 		Object r = null;
 		switch (columnIndex) {
-		case COLUMN_ID:
-			r = a.getId();
-			break;
-		case COLUMN_TYPE:
-			r = a.getType();
-			break;
-		case COLUMN_ALIAS:
-			r = a.getAlias();
-			break;
-		case COLUMN_CBU:
-			r = a.getCBU();
-			break;
-		case COLUMN_BALANCE:
-			r = a.getBalance();
-			break;
-		case COLUMN_CLIENTID:
-			r = getClient(a.getClient());
-			break;
-		default:
-			r = new String("");
+			case COLUMN_ID:
+				r = a.getId();
+				break;
+			case COLUMN_TYPE:
+				r = a.getType();
+				break;
+			case COLUMN_ALIAS:
+				r = a.getAlias();
+				break;
+			case COLUMN_CBU:
+				r = a.getCBU();
+				break;
+			case COLUMN_BALANCE:
+				r = a.getBalance();
+				break;
+			case COLUMN_CLIENTID:
+				r = getClient(a.getClient());
+				break;
+			default:
+				r = new String("");
 		}
 		return r;
 	}

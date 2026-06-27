@@ -12,14 +12,11 @@ import model.Account;
 
 public class AccountDAO implements CRUD<Account> {
 
-
-	static DBManager db = new DBManager();
-
 	@Override
 	public void Insert(Account t) throws Exception {
 		String sql = "INSERT INTO accounts(alias,cbu,balance,type,clientId) VALUES('" + t.getAlias() + "','"
 				+ t.getCBU() + "','" + t.getBalance() + "','" + t.getType() + "','" + t.getClient() + "');";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
@@ -43,7 +40,7 @@ public class AccountDAO implements CRUD<Account> {
 	@Override
 	public void Update(Account t) throws Exception {
 		String sql = "UPDATE accounts SET balance=" + t.getBalance() + " WHERE " + "id=" + t.getId();
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
@@ -67,7 +64,7 @@ public class AccountDAO implements CRUD<Account> {
 	@Override
 	public Account Read(int id) throws Exception {
 		String sql = "SELECT * FROM accounts WHERE id=" + id;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Account a = new Account();
 		try {
 			Statement s = c.createStatement();
@@ -100,7 +97,7 @@ public class AccountDAO implements CRUD<Account> {
 
 	public Account ReadAlias(String alias) throws Exception {
 		String sql = "SELECT * FROM accounts WHERE id='" + alias + "'";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Account a = new Account();
 		try {
 			Statement s = c.createStatement();
@@ -134,7 +131,7 @@ public class AccountDAO implements CRUD<Account> {
 	
 	public Account ReadCBU(String cbu) throws Exception {
 		String sql = "SELECT * FROM accounts WHERE cbu=" + cbu;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Account a = new Account();
 		try {
 			Statement s = c.createStatement();
@@ -167,7 +164,7 @@ public class AccountDAO implements CRUD<Account> {
 	public List<Account> ReadClientId(int id) throws Exception {
 		List<Account> list = new ArrayList<Account>();
 		String sql = "SELECT * FROM accounts where clientId="+ id;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			ResultSet rs = s.executeQuery(sql);
@@ -203,7 +200,7 @@ public class AccountDAO implements CRUD<Account> {
 	public List<Account> ReadPool() throws Exception {
 		List<Account> list = new ArrayList<Account>();
 		String sql = "SELECT * FROM accounts";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			ResultSet rs = s.executeQuery(sql);
@@ -238,7 +235,7 @@ public class AccountDAO implements CRUD<Account> {
 	@Override
 	public void Delete(int id) throws Exception {
 		String sql = "DELETE FROM accounts WHERE id=" + id;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);

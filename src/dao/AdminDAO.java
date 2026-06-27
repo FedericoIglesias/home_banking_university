@@ -12,13 +12,11 @@ import model.Admin;
 
 public class AdminDAO implements CRUD<Admin> {
 
-	static DBManager db = new DBManager();
-
 	@Override
 	public void Insert(Admin admin) throws Exception {
 		String sql = "INSERT INTO admins(name,email,pass,dni) VALUES('" + admin.getName() + "','" + admin.getEmail()
 				+ "','" + admin.getPass() + "','" + admin.getDni() + "');";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
@@ -43,7 +41,7 @@ public class AdminDAO implements CRUD<Admin> {
 	public void Update(Admin admin) throws Exception {
 		String sql = "UPDATE admins SET name=" + admin.getName() + ",email=" + admin.getEmail() + ",pass="
 				+ admin.getPass() + " WHERE " + "dni=" + admin.getDni();
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
@@ -67,7 +65,7 @@ public class AdminDAO implements CRUD<Admin> {
 	@Override
 	public Admin Read(int dni) throws Exception {
 		String sql = "SELECT * FROM admins WHERE dni=" + dni;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Admin admin = new Admin();
 		try {
 			Statement s = c.createStatement();
@@ -101,7 +99,7 @@ public class AdminDAO implements CRUD<Admin> {
 	public List<Admin> ReadPool() throws Exception {
 		List<Admin> list = new ArrayList<Admin>();
 		String sql = "SELECT * FROM users";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Admin user = new Admin();
 		try {
 			Statement s = c.createStatement();
@@ -135,7 +133,7 @@ public class AdminDAO implements CRUD<Admin> {
 	@Override
 	public void Delete(int dni) throws Exception {
 		String sql = "DELETE FROM users WHERE dni=" + dni;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);

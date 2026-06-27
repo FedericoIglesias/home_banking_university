@@ -1,10 +1,6 @@
 package form;
 
-import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 
 import dao.AccountDAO;
 import dao.ClientDAO;
@@ -91,24 +87,24 @@ public class ServiceForm {
 		}
 	}
 
-	public Account getByAlias(String alias) throws Exception{
-		Account acc=null;
+	public Account getByAlias(String alias) throws Exception {
+		Account acc = null;
 		try {
 			acc = acDAO.ReadAlias(alias);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new Exception(e);
 		}
 		return acc;
 	}
-	
-	public Account getByCBU(String CBU) throws Exception{
-		Account acc=null;
+
+	public Account getByCBU(String CBU) throws Exception {
+		Account acc = null;
 		try {
 			acc = acDAO.ReadAlias(CBU);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new Exception(e);
 		}
 		return acc;
 	}
-	
+
 }

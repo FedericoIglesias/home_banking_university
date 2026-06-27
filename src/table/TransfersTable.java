@@ -1,16 +1,14 @@
 package table;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
 import app.ManagerPanel;
-import model.Account;
 import model.Transfer;
 
-public class TransfersTable extends AbstractTableModel{
+public class TransfersTable extends AbstractTableModel {
 	private static final int COLUMN_ID = 0;
 	private static final int COLUMN_ORIGINID = 1;
 	private static final int COLUMN_DSTID = 2;
@@ -18,9 +16,9 @@ public class TransfersTable extends AbstractTableModel{
 	private static final int COLUMN_DATE = 4;
 	private ManagerPanel manager;
 
-	private String[] columnsName = { "ID", "Origen", "Destino", "Saldo", "Fecha"};
+	private String[] columnsName = { "ID", "Origen", "Destino", "Saldo", "Fecha" };
 
-	private Class[] columnsType = { Integer.class, Integer.class, Integer.class, Integer.class, Date.class};
+	private Class[] columnsType = { Integer.class, Integer.class, Integer.class, Integer.class, Date.class };
 
 	private List<Transfer> transfersList = null;
 
@@ -39,7 +37,7 @@ public class TransfersTable extends AbstractTableModel{
 
 	@Override
 	public int getRowCount() {
-		if(transfersList == null) {
+		if (transfersList == null) {
 			return 0;
 		}
 		return transfersList.size();
@@ -55,23 +53,23 @@ public class TransfersTable extends AbstractTableModel{
 		Transfer a = transfersList.get(rowIndex);
 		Object r = null;
 		switch (columnIndex) {
-		case COLUMN_ID:
-			r = a.getId();
-			break;
-		case COLUMN_ORIGINID:
-			r = a.getOriginId();
-			break;
-		case COLUMN_DSTID:
-			r = a.getDstId();
-			break;
-		case COLUMN_BALANCE:
-			r = a.getBalance();
-			break;
-		case COLUMN_DATE:
-			r = new Date(a.getDate()); 
-			break;
-		default:
-			r = new String("");
+			case COLUMN_ID:
+				r = a.getId();
+				break;
+			case COLUMN_ORIGINID:
+				r = a.getOriginId();
+				break;
+			case COLUMN_DSTID:
+				r = a.getDstId();
+				break;
+			case COLUMN_BALANCE:
+				r = a.getBalance();
+				break;
+			case COLUMN_DATE:
+				r = new Date(a.getDate());
+				break;
+			default:
+				r = new String("");
 		}
 		return r;
 	}

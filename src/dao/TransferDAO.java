@@ -12,13 +12,11 @@ import model.Transfer;
 
 public class TransferDAO implements CRUD<Transfer> {
 
-	static DBManager db = new DBManager();
-
 	@Override
 	public void Insert(Transfer t) throws Exception {
 		String sql = "INSERT INTO transfers(dstId,originId,balance,date) VALUES('" + t.getDstId() + "','"
 				+ t.getOriginId() + "','" + t.getBalance() + "','" + t.getDate() + "');";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
@@ -43,7 +41,7 @@ public class TransferDAO implements CRUD<Transfer> {
 	public void Update(Transfer t) throws Exception {
 		String sql = "UPDATE transfers SET dstId=" + t.getDstId() + ",originId=" + t.getOriginId() + ",balance="
 				+ t.getBalance() + ",date=" + t.getDate() + " WHERE " + "id=" + t.getId();
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
@@ -67,7 +65,7 @@ public class TransferDAO implements CRUD<Transfer> {
 	@Override
 	public Transfer Read(int id) throws Exception {
 		String sql = "SELECT * FROM transfers WHERE id=" + id;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Transfer transfer = new Transfer();
 		try {
 			Statement s = c.createStatement();
@@ -99,7 +97,7 @@ public class TransferDAO implements CRUD<Transfer> {
 
 	public Transfer ReadCBU(Long CBU) throws Exception {
 		String sql = "SELECT * FROM transfers WHERE cbu=" + CBU;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Transfer transfer = new Transfer();
 		try {
 			Statement s = c.createStatement();
@@ -128,10 +126,10 @@ public class TransferDAO implements CRUD<Transfer> {
 
 		return transfer;
 	}
-	
+
 	public Transfer ReadAlias(String alias) throws Exception {
 		String sql = "SELECT * FROM transfers WHERE alias='" + alias + "'";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Transfer transfer = new Transfer();
 		try {
 			Statement s = c.createStatement();
@@ -160,12 +158,12 @@ public class TransferDAO implements CRUD<Transfer> {
 
 		return transfer;
 	}
-	
+
 	@Override
 	public List<Transfer> ReadPool() throws Exception {
 		List<Transfer> list = new ArrayList<Transfer>();
 		String sql = "SELECT * FROM transfers";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			ResultSet rs = s.executeQuery(sql);
@@ -199,7 +197,7 @@ public class TransferDAO implements CRUD<Transfer> {
 	@Override
 	public void Delete(int id) throws Exception {
 		String sql = "DELETE FROM transfers WHERE id=" + id;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);

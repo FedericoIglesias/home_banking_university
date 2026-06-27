@@ -1,9 +1,7 @@
 package dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
-import model.Admin;
 
 public interface CRUD<T> {
 	void Insert(T t) throws Exception;

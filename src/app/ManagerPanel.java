@@ -5,12 +5,14 @@ import javax.swing.JOptionPane;
 
 import db.TableManager;
 import form.AccountFormPanel;
+import form.CardFormPanel;
 import form.ClientFormPanel;
 import form.TransfersFormPanel;
 import model.Client;
 
 
 public class ManagerPanel {
+	private CardFormPanel cardFormPanel;
 	private ClientPanel clientPanel;
 	private JFrame frame;
 	private ClientFormPanel formPanel;
@@ -65,6 +67,15 @@ public class ManagerPanel {
 		transfersFormPanel.makePanel();
 		transferPanel = new TransferPanel(this);
 		transferPanel.makePanel();
+		cardFormPanel = new CardFormPanel(this);
+		cardFormPanel.makePanel();
+	}
+
+	public void makeCardFormPanel(){
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(cardFormPanel);
+		frame.getContentPane().validate();
+		frame.getContentPane().repaint();
 	}
 
 	public void makeClientPanel() {

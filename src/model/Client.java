@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Client extends User{
 	
-	private List<Account> listAccount;
-	private List<Card> listCard;
+	// private List<Account> listAccount;
+	// private List<Card> listCard;
 	
 	public Client() {
 		super();

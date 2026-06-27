@@ -12,13 +12,11 @@ import model.Card;
 
 public class CardCRUD implements CRUD<Card> {
 
-	static DBManager db = new DBManager();
-
 	@Override
 	public void Insert(Card c) throws Exception {
 		String sql = "INSERT INTO cards (number,limit,clientId,debt) VALUES('" + c.getNumber() + "','"
 				+ c.getLimit() + "','" + c.getClientId() + "','" + c.getDebt() + "');";
-		Connection co = db.connect();
+		Connection co = DBManager.connect();
 		try {
 			Statement s = co.createStatement();
 			s.execute(sql);
@@ -43,7 +41,7 @@ public class CardCRUD implements CRUD<Card> {
 	public void Update(Card ca) throws Exception {
 		String sql = "UPDATE cards SET debt=" + ca.getDebt() + ",limit=" + ca.getLimit() + " WHERE " + "number="
 				+ ca.getNumber();
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
@@ -67,7 +65,7 @@ public class CardCRUD implements CRUD<Card> {
 	@Override
 	public Card Read(int id) throws Exception {
 		String sql = "SELECT * FROM cards WHERE number=" + id;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		Card card = new Card();
 		try {
 			Statement s = c.createStatement();
@@ -100,7 +98,7 @@ public class CardCRUD implements CRUD<Card> {
 	public List<Card> ReadPool() throws Exception {
 		List<Card> list = new ArrayList<Card>();
 		String sql = "SELECT * FROM cards";
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			ResultSet rs = s.executeQuery(sql);
@@ -133,7 +131,7 @@ public class CardCRUD implements CRUD<Card> {
 	@Override
 	public void Delete(int id) throws Exception {
 		String sql = "DELETE FROM cards WHERE number=" + id;
-		Connection c = db.connect();
+		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
 			s.execute(sql);
