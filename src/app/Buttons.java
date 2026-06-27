@@ -52,7 +52,7 @@ public class Buttons extends JPanel implements ActionListener {
 			manager.makeAccountPanel();
 		}
 		if (btn == cardsBtn) {
-			System.out.println("cards");
+			manager.makeCardPanel();
 		}
 		if (btn == transfersBtn) {
 			manager.makeTransferPanel();
@@ -62,21 +62,4 @@ public class Buttons extends JPanel implements ActionListener {
 		}
 	}
 
-	public void whatPanel() {
-		switch (this.panel) {
-		case "":
-			manager.makeClientPanel();
-			break;
-		case "ACCOUNTS":
-			manager.makeAccountPanel();
-			;
-			break;
-		case "CARDS":
-			System.out.println("cards");
-			break;
-		case "TRANSFERS":
-			System.out.println("transfers");
-			break;
-		}
-	}
 }

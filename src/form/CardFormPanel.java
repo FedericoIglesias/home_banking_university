@@ -48,7 +48,7 @@ public class CardFormPanel extends JPanel implements ActionListener {
 			clearInputs();
 		}
 		if (btn == backBtn) {
-			manager.makeAccountPanel();
+			manager.makeCardPanel();
 		}
 		// throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
 	}

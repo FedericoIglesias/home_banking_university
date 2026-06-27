@@ -1,6 +1,6 @@
 package app;
 
-import javax.swing.JFrame;  
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import db.TableManager;
@@ -10,9 +10,9 @@ import form.ClientFormPanel;
 import form.TransfersFormPanel;
 import model.Client;
 
-
 public class ManagerPanel {
 	private CardFormPanel cardFormPanel;
+	private CardPanel cardPanel;
 	private ClientPanel clientPanel;
 	private JFrame frame;
 	private ClientFormPanel formPanel;
@@ -25,39 +25,39 @@ public class ManagerPanel {
 	private TransferPanel transferPanel;
 	private TableManager tb = new TableManager();
 	private Boolean admin = false;
-	
+
 	public ManagerPanel() {
 		this.makeDB();
 	}
 
 	public void makeDB() {
-		try {			
+		try {
 			tb.createTableAccount();
 			tb.createTableCard();
 			tb.createTableClient();
 			tb.createTableTransfer();
-			}catch(Exception e) {
-				JOptionPane.showMessageDialog(this.frame, e.toString(), "Error DB", JOptionPane.CLOSED_OPTION);
-				System.exit(0);
-			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this.frame, e.toString(), "Error DB", JOptionPane.CLOSED_OPTION);
+			System.exit(0);
+		}
 	}
-	
-	public Boolean getAdmin(){
+
+	public Boolean getAdmin() {
 		return this.admin;
 	}
 
-	public void setAdmin(Boolean admin){
+	public void setAdmin(Boolean admin) {
 		this.admin = admin;
 	}
 
 	public void makeManager() {
-		frame= new JFrame();
+		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 700);
 		loginPanel = new LoginPanel(this);
 		loginPanel.makePanel();
 		formPanel = new ClientFormPanel(this);
 		formPanel.makePanel();
-		clientPanel= new ClientPanel(this);
+		clientPanel = new ClientPanel(this);
 		clientPanel.makePanel();
 		accPanel = new AccPanel(this);
 		accPanel.makePanel();
@@ -69,9 +69,19 @@ public class ManagerPanel {
 		transferPanel.makePanel();
 		cardFormPanel = new CardFormPanel(this);
 		cardFormPanel.makePanel();
+		cardPanel = new CardPanel(this);
+		cardPanel.makePanel();
 	}
 
-	public void makeCardFormPanel(){
+	public void makeCardPanel() {
+		cardPanel.isAdmin();
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(cardPanel);
+		frame.getContentPane().validate();
+		frame.getContentPane().repaint();
+	}
+
+	public void makeCardFormPanel() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(cardFormPanel);
 		frame.getContentPane().validate();
@@ -85,38 +95,38 @@ public class ManagerPanel {
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeFormPanel() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(formPanel);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeLoginPanel() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(loginPanel);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeProfilePanel(Client client) {
-		profilePanel = new ProfilePanel(this,client);
-		profilePanel.makePanel();		
+		profilePanel = new ProfilePanel(this, client);
+		profilePanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(profilePanel);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
-	public void makeDialogPanel(String msg,String subject,int type) {
+
+	public void makeDialogPanel(String msg, String subject, int type) {
 		dialog = new JOptionPane();
-		dialog.showMessageDialog(this.frame, msg,subject, type);
+		dialog.showMessageDialog(this.frame, msg, subject, type);
 		frame.getContentPane().add(dialog);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeAccountPanel() {
 		accPanel.updateList();
 		frame.getContentPane().removeAll();
@@ -124,21 +134,21 @@ public class ManagerPanel {
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeAccountFormPanel() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(accFormPanel);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeTransfersFormPanel() {
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(transfersFormPanel);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeTransferPanel() {
 		transferPanel.updateList();
 		transferPanel.isAdmin();
@@ -147,15 +157,15 @@ public class ManagerPanel {
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void showFrame() {
 		frame.setVisible(true);
 	}
-	
+
 	public void mostrarSalir() {
 		int response = JOptionPane.showConfirmDialog(frame, "Esta seguro?");
-		if(response == JOptionPane.OK_OPTION) {
+		if (response == JOptionPane.OK_OPTION) {
 			System.exit(0);
-		 }
+		}
 	}
 }

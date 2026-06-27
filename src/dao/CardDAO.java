@@ -10,7 +10,7 @@ import java.util.List;
 import db.DBManager;
 import model.Card;
 
-public class CardCRUD implements CRUD<Card> {
+public class CardDAO implements CRUD<Card> {
 
 	@Override
 	public void Insert(Card c) throws Exception {
@@ -128,9 +128,12 @@ public class CardCRUD implements CRUD<Card> {
 		return list;
 	}
 
-	@Override
-	public void Delete(int id) throws Exception {
-		String sql = "DELETE FROM cards WHERE number=" + id;
+	@Override 
+	public void Delete(int id){
+	}
+	
+	public void Delete(String number) throws Exception {
+		String sql = "DELETE FROM cards WHERE number=" + number;
 		Connection c = DBManager.connect();
 		try {
 			Statement s = c.createStatement();
