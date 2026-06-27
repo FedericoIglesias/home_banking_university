@@ -2,7 +2,6 @@ package app;
 
 import java.awt.event.ActionEvent;  
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -10,7 +9,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import form.FormLabel;
-import model.Admin;
 import model.Client;
 
 public class LoginPanel extends JPanel implements ActionListener {
@@ -19,7 +17,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private ManagerPanel manager;
 	private FormLabel dni;
 	private FormLabel pass;
-	private JOptionPane disclaimer = new JOptionPane();
+	// private JOptionPane disclaimer = new JOptionPane();
 	private ServiceApp sa = new ServiceApp();
 
 	public LoginPanel(ManagerPanel manager) {
@@ -46,7 +44,8 @@ public class LoginPanel extends JPanel implements ActionListener {
 			int id = Integer.parseInt(dni.getTxt().getText());
 			Client cl = sa.loginUser(id);
 			if (pass.getTxt().getText().equals(cl.getPass())) {
-				if (cl.getAdmin()) {
+				manager.setAdmin(cl.getAdmin());
+				if (manager.getAdmin()) {
 					manager.makeClientPanel();
 				} else {
 					manager.makeProfilePanel(new Client(cl.getName(), cl.getEmail(), cl.getDni(), cl.getAdmin()));

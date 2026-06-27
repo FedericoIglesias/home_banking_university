@@ -29,7 +29,6 @@ public class ProfilePanel extends JPanel{
 		this.add(name);
 		this.add(email);
 		this.add(dni);
-		
 	}
 	
 	

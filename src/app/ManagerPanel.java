@@ -22,6 +22,7 @@ public class ManagerPanel {
 	private TransfersFormPanel transfersFormPanel;
 	private TransferPanel transferPanel;
 	private TableManager tb = new TableManager();
+	private Boolean admin = false;
 	
 	public ManagerPanel() {
 		this.makeDB();
@@ -39,15 +40,23 @@ public class ManagerPanel {
 			}
 	}
 	
+	public Boolean getAdmin(){
+		return this.admin;
+	}
+
+	public void setAdmin(Boolean admin){
+		this.admin = admin;
+	}
+
 	public void makeManager() {
 		frame= new JFrame();
 		frame.setBounds(100, 100, 700, 700);
+		loginPanel = new LoginPanel(this);
+		loginPanel.makePanel();
 		formPanel = new ClientFormPanel(this);
 		formPanel.makePanel();
 		clientPanel= new ClientPanel(this);
 		clientPanel.makePanel();
-		loginPanel = new LoginPanel(this);
-		loginPanel.makePanel();
 		accPanel = new AccPanel(this);
 		accPanel.makePanel();
 		accFormPanel = new AccountFormPanel(this);
@@ -56,7 +65,6 @@ public class ManagerPanel {
 		transfersFormPanel.makePanel();
 		transferPanel = new TransferPanel(this);
 		transferPanel.makePanel();
-		
 	}
 
 	public void makeClientPanel() {
@@ -122,6 +130,7 @@ public class ManagerPanel {
 	
 	public void makeTransferPanel() {
 		transferPanel.updateList();
+		transferPanel.isAdmin();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(transferPanel);
 		frame.getContentPane().validate();

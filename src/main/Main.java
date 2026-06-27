@@ -1,9 +1,6 @@
 package main;
 
 import app.ManagerPanel;
-import db.TableManager;
-import model.Admin;
-import model.Client;
 
 public class Main {
 	ManagerPanel manager;
@@ -17,8 +14,8 @@ public class Main {
 	public void iniciarManager() {
 		manager = new ManagerPanel();
 		manager.makeManager();
-		//manager.makeLoginPanel();
-		manager.makeClientPanel();
+		manager.makeLoginPanel();
+		// manager.makeClientPanel();
 
 	}
 

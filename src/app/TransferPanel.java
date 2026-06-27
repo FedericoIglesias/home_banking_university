@@ -43,8 +43,6 @@ public class TransferPanel extends JPanel implements ActionListener{
 		deleteBtn.addActionListener(this);
 		addBtn = new JButton("Agregar");
 		addBtn.addActionListener(this);
-		this.add(deleteBtn);
-		this.add(addBtn);
 		this.add(btns);
 	}
 	
@@ -77,6 +75,13 @@ public class TransferPanel extends JPanel implements ActionListener{
 		}
 		if (btn == deleteBtn && table.getSelectedRow() != -1) {
 			deleteRow(table.getSelectedRow());
+		}
+	}
+
+	public void isAdmin(){
+		if(!manager.getAdmin()){
+			this.add(deleteBtn);
+			this.add(addBtn);
 		}
 	}
 }

@@ -13,17 +13,12 @@ import model.Client;
 import table.ClientTable;
 
 public class Buttons extends JPanel implements ActionListener {
-	private JButton addBtn;
-	private JButton deleteBtn;
 	private JButton accsBtn;
 	private JButton cardsBtn;
 	private JButton transfersBtn;
 	private JButton clientsBtn;
 	private ManagerPanel manager;
-	private JTable table;
-	private ClientTable model;
 	private String panel;
-	private String[] panels = { "CLIENTS", "ACCOUNTS", "CARDS", "TRANSFERS" };
 
 	public Buttons(ManagerPanel manager, String panel) {
 		this.manager = manager;
@@ -44,8 +39,8 @@ public class Buttons extends JPanel implements ActionListener {
 		cardsBtn.addActionListener(this);
 		transfersBtn.addActionListener(this);
 		clientsBtn .addActionListener(this);
-		this.add(accsBtn);
 		this.add(cardsBtn);
+		this.add(accsBtn);
 		this.add(transfersBtn);
 		this.add(clientsBtn);
 	}
