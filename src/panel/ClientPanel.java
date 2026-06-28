@@ -40,6 +40,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 		model = new ClientTable();
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
+		this.updateList();
 		this.add(scrollPane);
 		deleteBtn = new JButton("Borrar");
 		deleteBtn.addActionListener(this);
@@ -50,7 +51,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 		this.add(btns);
 	}
 	
-	public void updateList() {
+	private void updateList() {
 		try {
 			list = sa.getPoolCl();
 			model.setClientList(list);

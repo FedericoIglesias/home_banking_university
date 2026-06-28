@@ -40,11 +40,12 @@ public class CardPanel extends JPanel implements ActionListener {
     model = new CardTable();
     table = new JTable(model);
     scrollPane = new JScrollPane(table);
-    this.add(scrollPane);
     deleteBtn = new JButton("Borrar");
     deleteBtn.addActionListener(this);
     addBtn = new JButton("Agregar");
     addBtn.addActionListener(this);
+    this.updateList();
+    this.add(scrollPane);
     if (!manager.getClient().getAdmin()) {
       this.add(deleteBtn);
       this.add(addBtn);

@@ -40,12 +40,13 @@ public class AccPanel extends JPanel implements ActionListener{
 		model = new AccTable();
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
-		this.add(scrollPane);
 		deleteBtn = new JButton("Borrar");
 		deleteBtn.addActionListener(this);
-		this.add(deleteBtn);
 		addBtn = new JButton("Agregar");
 		addBtn.addActionListener(this);
+		this.updateList();
+		this.add(scrollPane);
+		this.add(deleteBtn);
 		this.add(addBtn);
 		this.add(btns);
 	}

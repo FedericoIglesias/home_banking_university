@@ -44,6 +44,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 		addBtn = new JButton("Agregar");
 		deleteBtn.addActionListener(this);
 		addBtn.addActionListener(this);
+		this.updateList();
 		this.add(scrollPane);
 		if (!manager.getClient().getAdmin()) {
 			this.add(deleteBtn);
@@ -52,7 +53,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 		this.add(btns);
 	}
 
-	public void updateList() {
+	private void updateList() {
 		try {
 			list = sa.getPoolTr();
 			model.setTransferList(list);
@@ -84,7 +85,4 @@ public class TransferPanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void isAdmin() {
-
-	}
 }
