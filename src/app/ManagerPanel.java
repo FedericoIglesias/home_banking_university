@@ -24,7 +24,6 @@ public class ManagerPanel {
 	private ClientFormPanel formPanel;
 	private LoginPanel loginPanel;
 	private ProfilePanel profilePanel;
-	private JOptionPane dialog;
 	private AccPanel accPanel;
 	private AccountFormPanel accFormPanel;
 	private TransfersFormPanel transfersFormPanel;
