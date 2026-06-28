@@ -55,7 +55,11 @@ public class TransferPanel extends JPanel implements ActionListener {
 
 	private void updateList() {
 		try {
-			list = sa.getPoolTr();
+			if (manager.getClient().getAdmin()) {
+				list = sa.getPoolTr();
+			} else {
+				list = sa.getTrCl(manager.getClient().getId());
+			}
 			model.setTransferList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {

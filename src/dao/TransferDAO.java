@@ -217,4 +217,38 @@ public class TransferDAO implements CRUD<Transfer> {
 		}
 	}
 
+	public List<Transfer> ReadTrCl(int id) throws Exception {
+		List<Transfer> list = new ArrayList<Transfer>();
+		String sql = "select  * from transfers where dstid in (SELECT id FROM ACCOUNTS where clientId =" + id
+				+ ") or originid in (SELECT id FROM ACCOUNTS where clientId = " + id + ")";
+		Connection c = DBManager.connect();
+		try {
+			Statement s = c.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			while (rs.next()) {
+				Transfer transfer = new Transfer();
+				transfer.setId(rs.getInt("id"));
+				transfer.setBalance(rs.getInt("balance"));
+				transfer.setDstId(rs.getInt("dstId"));
+				transfer.setOriginId(rs.getInt("originId"));
+				transfer.setDate(rs.getLong("date"));
+				list.add(transfer);
+			}
+		} catch (SQLException e) {
+			try {
+				c.rollback();
+				throw new Exception(e);
+			} catch (SQLException er) {
+				throw new Exception(er);
+			}
+		} finally {
+			try {
+				c.close();
+			} catch (SQLException e) {
+				throw new Exception(e);
+			}
+		}
+		return list;
+	}
+
 }

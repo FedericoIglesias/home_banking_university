@@ -53,7 +53,11 @@ public class AccPanel extends JPanel implements ActionListener{
 	
 	public void updateList() {
 		try {
-			list = sa.getPoolAcc();
+			if(manager.getClient().getAdmin()){	
+				list = sa.getPoolAcc();
+			}else{
+				list = sa.getAccCl(manager.getClient().getId());
+			}
 			model.setAccountList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
