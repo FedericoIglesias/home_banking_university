@@ -34,6 +34,4 @@ public class ProfilePanel extends JPanel{
 		this.add(btns);
 	}
 	
-	
-	
 }

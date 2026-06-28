@@ -61,26 +61,11 @@ public class ManagerPanel {
 		frame.setBounds(100, 100, 700, 700);
 		loginPanel = new LoginPanel(this);
 		loginPanel.makePanel();
-		formPanel = new ClientFormPanel(this);
-		formPanel.makePanel();
-		clientPanel = new ClientPanel(this);
-		clientPanel.makePanel();
-		accPanel = new AccPanel(this);
-		accPanel.makePanel();
-		accFormPanel = new AccountFormPanel(this);
-		accFormPanel.makePanel();
-		transfersFormPanel = new TransfersFormPanel(this);
-		transfersFormPanel.makePanel();
-		transferPanel = new TransferPanel(this);
-		transferPanel.makePanel();
-		cardFormPanel = new CardFormPanel(this);
-		cardFormPanel.makePanel();
-		cardPanel = new CardPanel(this);
-		cardPanel.makePanel();
 	}
 
 	public void makeCardPanel() {
-		cardPanel.isAdmin();
+		cardPanel = new CardPanel(this);
+		cardPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(cardPanel);
 		frame.getContentPane().validate();
@@ -88,6 +73,8 @@ public class ManagerPanel {
 	}
 
 	public void makeCardFormPanel() {
+		cardFormPanel = new CardFormPanel(this);
+		cardFormPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(cardFormPanel);
 		frame.getContentPane().validate();
@@ -95,14 +82,17 @@ public class ManagerPanel {
 	}
 
 	public void makeClientPanel() {
-		clientPanel.updateList();
+		clientPanel = new ClientPanel(this);
+		clientPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(clientPanel);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
 
-	public void makeFormPanel() {
+	public void makeClientFormPanel() {
+		formPanel = new ClientFormPanel(this);
+		formPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(formPanel);
 		frame.getContentPane().validate();
@@ -134,7 +124,8 @@ public class ManagerPanel {
 	}
 
 	public void makeAccountPanel() {
-		accPanel.updateList();
+		accPanel = new AccPanel(this);
+		accPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(accPanel);
 		frame.getContentPane().validate();
@@ -142,6 +133,8 @@ public class ManagerPanel {
 	}
 
 	public void makeAccountFormPanel() {
+		accFormPanel = new AccountFormPanel(this);
+		accFormPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(accFormPanel);
 		frame.getContentPane().validate();
@@ -149,15 +142,17 @@ public class ManagerPanel {
 	}
 
 	public void makeTransfersFormPanel() {
+		transfersFormPanel = new TransfersFormPanel(this);
+		transfersFormPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(transfersFormPanel);
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-
+	
 	public void makeTransferPanel() {
-		transferPanel.updateList();
-		transferPanel.isAdmin();
+		transferPanel = new TransferPanel(this);
+		transferPanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(transferPanel);
 		frame.getContentPane().validate();

@@ -75,7 +75,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object btn = e.getSource();
 		if (btn == addBtn) {
-			manager.makeFormPanel();
+			manager.makeClientFormPanel();
 		}
 		if (btn == deleteBtn && table.getSelectedRow() != -1) {
 			deleteRow(table.getSelectedRow());

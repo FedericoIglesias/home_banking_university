@@ -67,4 +67,15 @@ public class Buttons extends JPanel implements ActionListener {
 		}
 	}
 	
+	public void addBtn(){
+		if(manager.getClient().getAdmin()){
+			this.add(clientsBtn);
+		}else{
+			this.add(profileBtn);
+		}
+		this.add(cardsBtn);
+		this.add(accsBtn);
+		this.add(transfersBtn);
+	}
+
 }
