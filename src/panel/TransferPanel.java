@@ -16,8 +16,8 @@ import app.ManagerPanel;
 import model.Transfer;
 import table.TransfersTable;
 
-public class TransferPanel extends JPanel implements ActionListener{
-	
+public class TransferPanel extends JPanel implements ActionListener {
+
 	private JTable table;
 	private TransfersTable model;
 	private JScrollPane scrollPane;
@@ -40,14 +40,18 @@ public class TransferPanel extends JPanel implements ActionListener{
 		model = new TransfersTable();
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
-		this.add(scrollPane);
 		deleteBtn = new JButton("Borrar");
-		deleteBtn.addActionListener(this);
 		addBtn = new JButton("Agregar");
+		deleteBtn.addActionListener(this);
 		addBtn.addActionListener(this);
+		this.add(scrollPane);
+		if (!manager.getClient().getAdmin()) {
+			this.add(deleteBtn);
+			this.add(addBtn);
+		}
 		this.add(btns);
 	}
-	
+
 	public void updateList() {
 		try {
 			list = sa.getPoolTr();
@@ -57,7 +61,7 @@ public class TransferPanel extends JPanel implements ActionListener{
 			manager.makeDialogPanel(e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	public void deleteRow(int id) {
 		try {
 			sa.deleteTr(list.get(id).getId());
@@ -80,10 +84,7 @@ public class TransferPanel extends JPanel implements ActionListener{
 		}
 	}
 
-	public void isAdmin(){
-		if(!manager.getClient().getAdmin()){
-			this.add(deleteBtn);
-			this.add(addBtn);
-		}
+	public void isAdmin() {
+
 	}
 }

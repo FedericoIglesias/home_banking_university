@@ -45,6 +45,10 @@ public class CardPanel extends JPanel implements ActionListener {
     deleteBtn.addActionListener(this);
     addBtn = new JButton("Agregar");
     addBtn.addActionListener(this);
+    if (!manager.getClient().getAdmin()) {
+      this.add(deleteBtn);
+      this.add(addBtn);
+    }
     this.add(btns);
   }
 
@@ -77,13 +81,6 @@ public class CardPanel extends JPanel implements ActionListener {
     }
     if (btn == deleteBtn && table.getSelectedRow() != -1) {
       deleteRow(table.getSelectedRow());
-    }
-  }
-
-  public void isAdmin() {
-    if (!manager.getClient().getAdmin()) {
-      this.add(deleteBtn);
-      this.add(addBtn);
     }
   }
 

@@ -31,8 +31,8 @@ public class Buttons extends JPanel implements ActionListener {
 	public void makePanel() {
 		this.setLayout(new FlowLayout());
 		accsBtn = new JButton("Cuentas");
-		cardsBtn= new JButton("Tarjetas");;
-		transfersBtn = new JButton("Transferencias");;
+		cardsBtn = new JButton("Tarjetas");
+		transfersBtn = new JButton("Transferencias");
 		clientsBtn = new JButton("Clientes");
 		profileBtn = new JButton("Perfil");
 		profileBtn.addActionListener(this);
@@ -40,11 +40,14 @@ public class Buttons extends JPanel implements ActionListener {
 		cardsBtn.addActionListener(this);
 		transfersBtn.addActionListener(this);
 		clientsBtn.addActionListener(this);
+		if (manager.getClient().getAdmin()) {
+			this.add(clientsBtn);
+		} else {
+			this.add(profileBtn);
+		}
 		this.add(cardsBtn);
 		this.add(accsBtn);
 		this.add(transfersBtn);
-		this.add(clientsBtn);
-		this.add(profileBtn);
 	}
 
 	@Override
@@ -62,20 +65,9 @@ public class Buttons extends JPanel implements ActionListener {
 		if (btn == clientsBtn) {
 			manager.makeClientPanel();
 		}
-		if(btn == profileBtn){
+		if (btn == profileBtn) {
 			manager.makeProfilePanel();
 		}
-	}
-	
-	public void addBtn(){
-		if(manager.getClient().getAdmin()){
-			this.add(clientsBtn);
-		}else{
-			this.add(profileBtn);
-		}
-		this.add(cardsBtn);
-		this.add(accsBtn);
-		this.add(transfersBtn);
 	}
 
 }
