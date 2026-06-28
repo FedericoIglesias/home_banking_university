@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
@@ -19,6 +20,9 @@ import app.ManagerPanel;
 import model.Account;
 import model.Client;
 import model.Transfer;
+
+//  TODO - hacer transferencias por CBU y por alias
+
 
 public class TransfersFormPanel extends JPanel implements ActionListener, ListSelectionListener {
 	private ManagerPanel manager;
@@ -32,8 +36,8 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	private JCheckBox cbu;
 	private JCheckBox alias;
 	private JCheckBox id;
-	
-	private ServiceForm sf = new ServiceForm(); 
+
+	private ServiceForm sf = new ServiceForm();
 
 	private DefaultListModel<String> list = new DefaultListModel<>();
 	private DefaultListModel<String> listEmails = new DefaultListModel<>();
@@ -46,7 +50,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		dstId = new FormLabel("Cuenta destino, ingrese CBU, Id o alias de cuenta:");
 		getEmail();
-		emails = new FormLabel("Seleccione cliente:", listEmails);
+		emails = new FormLabel("Cliente:", listEmails);
 		emails.getList().addListSelectionListener(this);
 		originId = new FormLabel("Seleccione una cuenta de origen:", list);
 		balance = new FormLabel("Ingrese el valor a transferir: ");
@@ -60,9 +64,16 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		backBtn = new JButton("Volver");
 		backBtn.addActionListener(this);
 		this.add(emails.getLbl());
-		this.add(emails.getList());
+		if (manager.getClient().getAdmin()) {
+			this.add(emails.getList());
+		} else {
+			this.add(new JLabel(manager.getClient().getEmail()));
+		}
 		this.add(originId.getLbl());
 		this.add(originId.getList());
+		if (!manager.getClient().getAdmin()) {
+			this.getAccounts(manager.getClient().getId());
+		}
 		this.add(dstId.getLbl());
 		this.add(dstId.getTxt());
 		this.add(cbu);
@@ -114,13 +125,13 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 				trans.setDstId(getAccountDst());
 				trans.setOriginId(Integer.parseInt(parts[2]));
 				sf.createTransfers(trans);
-				updateAcc(Integer.parseInt(parts[2]),getAccountDst());
+				updateAcc(Integer.parseInt(parts[2]), getAccountDst());
 			} catch (Exception e) {
 				manager.makeDialogPanel(e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
 				ok = false;
 			}
-			if(ok) {
-				manager.makeDialogPanel("Transferencia realizada con exito", "Hecho", JOptionPane.INFORMATION_MESSAGE);				
+			if (ok) {
+				manager.makeDialogPanel("Transferencia realizada con exito", "Hecho", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
@@ -202,7 +213,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 			int id = 0;
 			try {
 				id = sf.getClient(selected).getId();
-				
+
 			} catch (Exception e1) {
 				manager.makeDialogPanel(e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -244,7 +255,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	}
 
 	public void updateAcc(Integer oriId, Integer dstId) {
-		Integer blc =  Integer.parseInt(balance.getTxt().getText());
+		Integer blc = Integer.parseInt(balance.getTxt().getText());
 		try {
 			sf.updateAllAcc(oriId, dstId, blc);
 		} catch (Exception e) {
