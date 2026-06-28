@@ -79,7 +79,7 @@ public class TransferPanel extends JPanel implements ActionListener{
 	}
 
 	public void isAdmin(){
-		if(!manager.getAdmin()){
+		if(!manager.getClient().getAdmin()){
 			this.add(deleteBtn);
 			this.add(addBtn);
 		}

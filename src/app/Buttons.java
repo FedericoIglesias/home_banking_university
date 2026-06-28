@@ -17,6 +17,7 @@ public class Buttons extends JPanel implements ActionListener {
 	private JButton cardsBtn;
 	private JButton transfersBtn;
 	private JButton clientsBtn;
+	private JButton profileBtn;
 	private ManagerPanel manager;
 	private String panel;
 
@@ -35,14 +36,17 @@ public class Buttons extends JPanel implements ActionListener {
 		cardsBtn= new JButton("Tarjetas");;
 		transfersBtn = new JButton("Transferencias");;
 		clientsBtn = new JButton("Clientes");
+		profileBtn = new JButton("Perfil");
+		profileBtn.addActionListener(this);
 		accsBtn.addActionListener(this);
 		cardsBtn.addActionListener(this);
 		transfersBtn.addActionListener(this);
-		clientsBtn .addActionListener(this);
+		clientsBtn.addActionListener(this);
 		this.add(cardsBtn);
 		this.add(accsBtn);
 		this.add(transfersBtn);
 		this.add(clientsBtn);
+		this.add(profileBtn);
 	}
 
 	@Override
@@ -60,6 +64,9 @@ public class Buttons extends JPanel implements ActionListener {
 		if (btn == clientsBtn) {
 			manager.makeClientPanel();
 		}
+		if(btn == profileBtn){
+			manager.makeProfilePanel();
+		}
 	}
-
+	
 }

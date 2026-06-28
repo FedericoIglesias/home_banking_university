@@ -44,11 +44,11 @@ public class LoginPanel extends JPanel implements ActionListener {
 			int id = Integer.parseInt(dni.getTxt().getText());
 			Client cl = sa.loginUser(id);
 			if (pass.getTxt().getText().equals(cl.getPass())) {
-				manager.setAdmin(cl.getAdmin());
-				if (manager.getAdmin()) {
+				manager.setClient(cl);
+				if (manager.getClient().getAdmin()) {
 					manager.makeClientPanel();
 				} else {
-					manager.makeProfilePanel(new Client(cl.getName(), cl.getEmail(), cl.getDni(), cl.getAdmin()));
+					manager.makeProfilePanel();
 				}
 			} else {
 				manager.makeDialogPanel("DNI o contraseña invalidas", "Login incorrecto", JOptionPane.INFORMATION_MESSAGE);

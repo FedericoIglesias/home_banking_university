@@ -24,7 +24,15 @@ public class ManagerPanel {
 	private TransfersFormPanel transfersFormPanel;
 	private TransferPanel transferPanel;
 	private TableManager tb = new TableManager();
-	private Boolean admin = false;
+	private Client client = null;
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
 
 	public ManagerPanel() {
 		this.makeDB();
@@ -40,14 +48,6 @@ public class ManagerPanel {
 			JOptionPane.showMessageDialog(this.frame, e.toString(), "Error DB", JOptionPane.CLOSED_OPTION);
 			System.exit(0);
 		}
-	}
-
-	public Boolean getAdmin() {
-		return this.admin;
-	}
-
-	public void setAdmin(Boolean admin) {
-		this.admin = admin;
 	}
 
 	public void makeManager() {
@@ -110,8 +110,8 @@ public class ManagerPanel {
 		frame.getContentPane().repaint();
 	}
 
-	public void makeProfilePanel(Client client) {
-		profilePanel = new ProfilePanel(this, client);
+	public void makeProfilePanel() {
+		profilePanel = new ProfilePanel(this, this.client);
 		profilePanel.makePanel();
 		frame.getContentPane().removeAll();
 		frame.getContentPane().add(profilePanel);
