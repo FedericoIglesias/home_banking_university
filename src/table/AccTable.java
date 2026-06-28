@@ -110,7 +110,7 @@ public class AccTable extends AbstractTableModel {
 		try {
 			name = st.getClient(id).getName();
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return name;
 	}

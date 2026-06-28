@@ -91,7 +91,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		try {
 			lsCl = sf.getClientPool();
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		int i;
 		for (i = 0; i < lsCl.size(); i++) {
@@ -105,7 +105,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		try {
 			lsAcc = sf.getAccount(id);
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		int i;
 		for (i = 0; i < lsAcc.size(); i++) {
@@ -127,11 +127,11 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 				sf.createTransfers(trans);
 				updateAcc(Integer.parseInt(parts[2]), getAccountDst());
 			} catch (Exception e) {
-				manager.makeDialogPanel(e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
 				ok = false;
 			}
 			if (ok) {
-				manager.makeDialogPanel("Transferencia realizada con exito", "Hecho", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(manager.getFrame(),"Transferencia realizada con exito", "Hecho", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
@@ -175,7 +175,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		}
 
 		if (flag) {
-			manager.makeDialogPanel("Recordá: campos no mayor a 30 caracteres y DNI no mayor de 10 caracteres",
+			JOptionPane.showMessageDialog(manager.getFrame(),"Recordá: campos no mayor a 30 caracteres y DNI no mayor de 10 caracteres",
 					"Campo invalido", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -215,7 +215,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 				id = sf.getClient(selected).getId();
 
 			} catch (Exception e1) {
-				manager.makeDialogPanel(e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(manager.getFrame(),e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			getAccounts(id);
 		}
@@ -235,10 +235,10 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 				ids = sf.getByAlias(dstId.getTxt().getText()).getId();
 			}
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error archivos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error archivos", JOptionPane.ERROR_MESSAGE);
 		}
 		if (ids == null) {
-			manager.makeDialogPanel("Cuenta destino no encontrada", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),"Cuenta destino no encontrada", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
 			return -1;
 		} else {
 			return (int) ids;
@@ -248,7 +248,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	public Boolean checkBalance() {
 		String[] parts = originId.getList().getSelectedValue().split(" -- ");
 		if (Integer.parseInt(balance.getTxt().getText()) > Integer.parseInt(parts[1])) {
-			manager.makeDialogPanel("Insuficiente saldo", "Sin fondos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),"Insuficiente saldo", "Sin fondos", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;
@@ -259,7 +259,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		try {
 			sf.updateAllAcc(oriId, dstId, blc);
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Problema de archivos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Problema de archivos", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

@@ -3,6 +3,7 @@ package table;
 import java.util.List;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import app.ManagerPanel;
@@ -101,7 +102,7 @@ public class CardTable extends AbstractTableModel {
     try {
       name = st.getClient(id).getName();
     } catch (Exception e) {
-      manager.makeDialogPanel(e.getMessage(), "Error", JDialog.ERROR);
+      JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JDialog.ERROR);
     }
       return name;
   }

@@ -52,12 +52,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 					manager.makeProfilePanel();
 				}
 			} else {
-				manager.makeDialogPanel("DNI o contraseña invalidas", "Login incorrecto", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(manager.getFrame(),"DNI o contraseña invalidas", "Login incorrecto", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} catch (NumberFormatException e) {
-			manager.makeDialogPanel("Ingrese los n° del DNI", "DNI incorrecto", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),"Ingrese los n° del DNI", "DNI incorrecto", JOptionPane.ERROR_MESSAGE);
 		}catch(Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error Ingresando", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Ingresando", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

@@ -26,7 +26,7 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 	private FormLabel list;
 	private Client client;
 	private String[] t = { "Cuenta Corriente", "Caja Ahorro", "Cuenta Dolares", "Cuenta Sueldo" };
-	private ServiceForm  sf = new ServiceForm();  
+	private ServiceForm sf = new ServiceForm();
 
 	public AccountFormPanel(ManagerPanel manager) {
 		this.manager = manager;
@@ -73,21 +73,24 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 
 	private void addAccount() {
 		Boolean ok = true;
-		String CBU =Long.toString(new Date().getTime());
+		String CBU = Long.toString(new Date().getTime());
 		if (checkInputs()) {
 			try {
 				Integer blc = Integer.parseInt(balance.getTxt().getText());
-				Account acc = new Account(blc, CBU, alias.getTxt().getText(), list.getList().getSelectedValue(),client.getId());
+				Account acc = new Account(blc, CBU, alias.getTxt().getText(), list.getList().getSelectedValue(),
+						client.getId());
 				sf.createAccount(acc);
 			} catch (NumberFormatException e) {
-				manager.makeDialogPanel("Saldo invalido", "Error de numero", JOptionPane.ERROR_MESSAGE);
-				ok=false;
+				JOptionPane.showMessageDialog(manager.getFrame(), "Saldo invalido", "Error de numero",
+						JOptionPane.ERROR_MESSAGE);
+				ok = false;
 			} catch (Exception e) {
-				manager.makeDialogPanel(e.getMessage(), "Error Guardado", JOptionPane.ERROR_MESSAGE);
-				ok=false;
+				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado", JOptionPane.ERROR_MESSAGE);
+				ok = false;
 			}
-			if(ok) {
-				manager.makeDialogPanel("Cuenta creada con exito!!!", "Exito", JOptionPane.INFORMATION_MESSAGE);				
+			if (ok) {
+				JOptionPane.showMessageDialog(manager.getFrame(), "Cuenta creada con exito!!!", "Exito",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
@@ -127,7 +130,8 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 			flag = true;
 		}
 		if (flag) {
-			manager.makeDialogPanel("Recordá: campos no mayor a 30 caracteres, balance deben ser n°", "Campo invalido",
+			JOptionPane.showMessageDialog(manager.getFrame(),
+					"Recordá: campos no mayor a 30 caracteres, balance deben ser n°", "Campo invalido",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -139,7 +143,8 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 		try {
 			client = sf.getClient(email.getTxt().getText());
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error Extrayendo datos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Extrayendo datos",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

@@ -115,14 +115,6 @@ public class ManagerPanel {
 		frame.getContentPane().repaint();
 	}
 
-	public void makeDialogPanel(String msg, String subject, int type) {
-		dialog = new JOptionPane();
-		dialog.showMessageDialog(this.frame, msg, subject, type);
-		frame.getContentPane().add(dialog);
-		frame.getContentPane().validate();
-		frame.getContentPane().repaint();
-	}
-
 	public void makeAccountPanel() {
 		accPanel = new AccPanel(this);
 		accPanel.makePanel();
@@ -149,7 +141,7 @@ public class ManagerPanel {
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 	}
-	
+
 	public void makeTransferPanel() {
 		transferPanel = new TransferPanel(this);
 		transferPanel.makePanel();
@@ -169,4 +161,9 @@ public class ManagerPanel {
 			System.exit(0);
 		}
 	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
 }

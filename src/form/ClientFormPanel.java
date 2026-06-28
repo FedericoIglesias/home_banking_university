@@ -68,10 +68,10 @@ public class ClientFormPanel extends JPanel {
 					try {
 						sf.createClient(c);
 					}catch(Exception er) {
-						manager.makeDialogPanel(er.getMessage(),"Error Guardado", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(manager.getFrame(),er.getMessage(),"Error Guardado", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					manager.makeDialogPanel("Exito al guardar usuario","Exito!!", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(manager.getFrame(),"Exito al guardar usuario","Exito!!", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 
@@ -128,7 +128,7 @@ public class ClientFormPanel extends JPanel {
 		}
 
 		if (flag) {
-			manager.makeDialogPanel("Recordá: campos no mayor a 30 caracteres y DNI no mayor de 10 caracteres",
+			JOptionPane.showMessageDialog(manager.getFrame(),"Recordá: campos no mayor a 30 caracteres y DNI no mayor de 10 caracteres",
 					"Campo invalido", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}

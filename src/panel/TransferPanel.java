@@ -63,7 +63,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 			model.setTransferList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 			model.setTransferList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			manager.makeDialogPanel(e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
