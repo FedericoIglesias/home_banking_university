@@ -13,9 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
 import app.ManagerPanel;
-
 import model.Client;
 
 public class ClientFormPanel extends JPanel {

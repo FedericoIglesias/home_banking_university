@@ -1,4 +1,4 @@
-package app;
+package panel;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import app.Buttons;
+import app.ManagerPanel;
 import model.Card;
 
 import table.CardTable;
@@ -33,7 +35,7 @@ public class CardPanel extends JPanel implements ActionListener {
 
   public void makePanel() {
     this.setLayout(new FlowLayout());
-    btns = new Buttons(manager, "ACCOUNTS");
+    btns = new Buttons(manager);
     btns.makePanel();
     model = new CardTable();
     table = new JTable(model);

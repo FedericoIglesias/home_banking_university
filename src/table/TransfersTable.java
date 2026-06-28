@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import app.ManagerPanel;
 import model.Transfer;
 
 public class TransfersTable extends AbstractTableModel {
@@ -14,7 +13,6 @@ public class TransfersTable extends AbstractTableModel {
 	private static final int COLUMN_DSTID = 2;
 	private static final int COLUMN_BALANCE = 3;
 	private static final int COLUMN_DATE = 4;
-	private ManagerPanel manager;
 
 	private String[] columnsName = { "ID", "Origen", "Destino", "Saldo", "Fecha" };
 
@@ -25,9 +23,8 @@ public class TransfersTable extends AbstractTableModel {
 	public TransfersTable() {
 	}
 
-	public TransfersTable(List<Transfer> transfersList, ManagerPanel manager) {
+	public TransfersTable(List<Transfer> transfersList) {
 		this.transfersList = transfersList;
-		this.manager = manager;
 	}
 
 	@Override

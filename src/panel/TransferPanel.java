@@ -1,4 +1,4 @@
-package app;
+package panel;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -11,47 +11,47 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import model.Account;
-import table.AccTable;
+import app.Buttons;
+import app.ManagerPanel;
+import model.Transfer;
+import table.TransfersTable;
 
-public class AccPanel extends JPanel implements ActionListener{
-
+public class TransferPanel extends JPanel implements ActionListener{
+	
 	private JTable table;
-	private AccTable model;
+	private TransfersTable model;
 	private JScrollPane scrollPane;
 	private JButton addBtn;
 	private JButton deleteBtn;
 	private ManagerPanel manager;
-	private List<Account> list;
-	private ServiceApp sa= new ServiceApp();
+	private List<Transfer> list;
 	private Buttons btns;
+	private ServiceApp sa = new ServiceApp();
 
-	public AccPanel(ManagerPanel m) {
+	public TransferPanel(ManagerPanel m) {
 		super();
 		this.manager = m;
 	}
 
 	public void makePanel() {
 		this.setLayout(new FlowLayout());
-		btns = new Buttons(manager, "ACCOUNTS");
+		btns = new Buttons(manager);
 		btns.makePanel();
-		model = new AccTable();
+		model = new TransfersTable();
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
 		this.add(scrollPane);
 		deleteBtn = new JButton("Borrar");
 		deleteBtn.addActionListener(this);
-		this.add(deleteBtn);
 		addBtn = new JButton("Agregar");
 		addBtn.addActionListener(this);
-		this.add(addBtn);
 		this.add(btns);
 	}
 	
 	public void updateList() {
 		try {
-			list = sa.getPoolAcc();
-			model.setAccountList(list);
+			list = sa.getPoolTr();
+			model.setTransferList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
 			manager.makeDialogPanel(e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
@@ -60,9 +60,9 @@ public class AccPanel extends JPanel implements ActionListener{
 	
 	public void deleteRow(int id) {
 		try {
-			sa.deleteAcc(list.get(id).getId()); 
+			sa.deleteTr(list.get(id).getId());
 			list.remove(id);
-			model.setAccountList(list);
+			model.setTransferList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
 			manager.makeDialogPanel(e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
@@ -73,11 +73,17 @@ public class AccPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object btn = e.getSource();
 		if (btn == addBtn) {
-			manager.makeAccountFormPanel();
+			manager.makeTransfersFormPanel();
 		}
 		if (btn == deleteBtn && table.getSelectedRow() != -1) {
 			deleteRow(table.getSelectedRow());
 		}
 	}
 
+	public void isAdmin(){
+		if(!manager.getClient().getAdmin()){
+			this.add(deleteBtn);
+			this.add(addBtn);
+		}
+	}
 }

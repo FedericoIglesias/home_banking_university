@@ -19,11 +19,9 @@ public class Buttons extends JPanel implements ActionListener {
 	private JButton clientsBtn;
 	private JButton profileBtn;
 	private ManagerPanel manager;
-	private String panel;
 
-	public Buttons(ManagerPanel manager, String panel) {
+	public Buttons(ManagerPanel manager) {
 		this.manager = manager;
-		this.panel = panel;
 	}
 
 	public Buttons(ManagerPanel manager, JTable table, ClientTable model, List<Client> list) {

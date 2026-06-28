@@ -9,6 +9,12 @@ import form.CardFormPanel;
 import form.ClientFormPanel;
 import form.TransfersFormPanel;
 import model.Client;
+import panel.AccPanel;
+import panel.CardPanel;
+import panel.ClientPanel;
+import panel.LoginPanel;
+import panel.ProfilePanel;
+import panel.TransferPanel;
 
 public class ManagerPanel {
 	private CardFormPanel cardFormPanel;

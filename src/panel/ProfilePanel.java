@@ -1,11 +1,11 @@
-package app;
+package panel;
 
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.Account;
+import app.Buttons;
+import app.ManagerPanel;
 import model.Client;
 
 public class ProfilePanel extends JPanel{
@@ -13,7 +13,6 @@ public class ProfilePanel extends JPanel{
 	private JLabel email;
 	private JLabel dni;
 	private Buttons btns;
-	private List<Account> acc;
 	private ManagerPanel manager;
 	private Client client;
 	
@@ -27,7 +26,7 @@ public class ProfilePanel extends JPanel{
 		name = new JLabel("Nombre Completo: " + client.getName());
 		email = new JLabel("Email: " + client.getEmail());
 		dni = new JLabel("DNI: " + client.getDni().toString());
-		btns = new Buttons(manager, TOOL_TIP_TEXT_KEY);
+		btns = new Buttons(manager);
 		btns.makePanel();
 		this.add(name);
 		this.add(email);
