@@ -1,6 +1,6 @@
 package panel;
 
-
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -8,21 +8,22 @@ import app.Buttons;
 import app.ManagerPanel;
 import model.Client;
 
-public class ProfilePanel extends JPanel{
+public class ProfilePanel extends JPanel {
 	private JLabel name;
 	private JLabel email;
 	private JLabel dni;
 	private Buttons btns;
 	private ManagerPanel manager;
 	private Client client;
-	
-	public ProfilePanel(ManagerPanel manager,Client client) {
+
+	public ProfilePanel(ManagerPanel manager, Client client) {
 		super();
 		this.manager = manager;
 		this.client = client;
 	}
-	
+
 	public void makePanel() {
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		name = new JLabel("Nombre Completo: " + client.getName());
 		email = new JLabel("Email: " + client.getEmail());
 		dni = new JLabel("DNI: " + client.getDni().toString());
@@ -33,5 +34,5 @@ public class ProfilePanel extends JPanel{
 		this.add(dni);
 		this.add(btns);
 	}
-	
+
 }
