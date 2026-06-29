@@ -117,6 +117,17 @@ public class ServiceApp {
 		return listCards;
 	}
 
+	public List<Card> getClCd(Integer id) throws Exception {
+		List<Card> listCards = null;
+		try {
+			listCards = cdDAO.ReadPoolbyCl(id);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return listCards;
+	}
+
+
 	public void deleteCard(String Number) throws Exception {
 		try {
 			cdDAO.Delete(Number);

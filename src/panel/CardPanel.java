@@ -55,7 +55,11 @@ public class CardPanel extends JPanel implements ActionListener {
 
   public void updateList() {
     try {
-      list = sa.getPoolCd();
+      if(manager.getClient().getAdmin()){
+        list = sa.getPoolCd();
+      }else{
+        list= sa.getClCd(manager.getClient().getId());
+      }
       model.setCardList(list);
       model.fireTableDataChanged();
     } catch (Exception e) {
