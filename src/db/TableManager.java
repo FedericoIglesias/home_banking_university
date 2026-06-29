@@ -122,8 +122,8 @@ public class TableManager {
 	public void createTableCard() throws Exception {
 		Connection c = null;
 		String sql = "CREATE TABLE IF NOT EXISTS cards (\r\n" + "    number VARCHAR(256) UNIQUE PRIMARY KEY,\r\n"
-				+ "    balance INTEGER,\r\n" + "    limite INTEGER,\r\n" + "    clientId INTEGER,\r\n"
-				+ "    accId INTEGER\r\n" + ");";
+				+ "    debt INTEGER,\r\n" + "    limite INTEGER,\r\n" + "    clientId INTEGER\r\n"
+				+ ");";
 
 		try {
 			c = DBManager.connect();

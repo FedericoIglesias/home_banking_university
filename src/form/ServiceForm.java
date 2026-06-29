@@ -1,11 +1,17 @@
 package form;
 
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
+import app.ManagerPanel;
 import dao.AccountDAO;
+import dao.CardDAO;
 import dao.ClientDAO;
 import dao.TransferDAO;
 import model.Account;
+import model.Card;
 import model.Client;
 import model.Transfer;
 
@@ -14,9 +20,16 @@ public class ServiceForm {
 	private ClientDAO clDAO = new ClientDAO();
 	private AccountDAO acDAO = new AccountDAO();
 	private TransferDAO trDAO = new TransferDAO();
+	private CardDAO cdDAO = new CardDAO();
+	private ManagerPanel manager;
 
 	public ServiceForm() {
 		super();
+	}
+
+	public ServiceForm(ManagerPanel manager) {
+		super();
+		this.manager = manager;
 	}
 
 	public void createClient(Client c) throws Exception {
@@ -105,6 +118,19 @@ public class ServiceForm {
 			throw new Exception(e);
 		}
 		return acc;
+	}
+
+	public void createCard(Integer limit)throws Exception {
+		Card card = new Card();
+		card.setClientId(manager.getClient().getId());
+		card.setDebt(0);
+		card.setLimit(limit);
+		card.setNumber(Long.toString(new Date().getTime()));
+		try {
+			cdDAO.Insert(card);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
 	}
 
 }

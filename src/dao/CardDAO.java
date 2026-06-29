@@ -14,7 +14,7 @@ public class CardDAO implements CRUD<Card> {
 
 	@Override
 	public void Insert(Card c) throws Exception {
-		String sql = "INSERT INTO cards (number,limit,clientId,debt) VALUES('" + c.getNumber() + "','"
+		String sql = "INSERT INTO cards (number,limite,clientId,debt) VALUES('" + c.getNumber() + "','"
 				+ c.getLimit() + "','" + c.getClientId() + "','" + c.getDebt() + "');";
 		Connection co = DBManager.connect();
 		try {
@@ -39,7 +39,7 @@ public class CardDAO implements CRUD<Card> {
 
 	@Override
 	public void Update(Card ca) throws Exception {
-		String sql = "UPDATE cards SET debt=" + ca.getDebt() + ",limit=" + ca.getLimit() + " WHERE " + "number="
+		String sql = "UPDATE cards SET debt=" + ca.getDebt() + ",limite=" + ca.getLimit() + " WHERE " + "number="
 				+ ca.getNumber();
 		Connection c = DBManager.connect();
 		try {

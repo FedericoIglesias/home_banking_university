@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import app.ManagerPanel;
@@ -16,7 +17,7 @@ public class CardFormPanel extends JPanel implements ActionListener {
 	private JButton addBtn;
 	private JButton clearBtn;
 	private JButton backBtn;
-
+	private ServiceForm sf;
 
 	public CardFormPanel(ManagerPanel manager) {
 		this.manager = manager;
@@ -50,20 +51,21 @@ public class CardFormPanel extends JPanel implements ActionListener {
 		if (btn == backBtn) {
 			manager.makeCardPanel();
 		}
-		// throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
 	}
 
 	public void addCard(){
-			System.out.println("tarjeta agregada");
+			try {
+				sf = new ServiceForm(manager);
+				sf.createCard(Integer.parseInt(limit.getTxt().getText()));
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			JOptionPane.showMessageDialog(manager.getFrame(), "Exito al crear tarjeta","Exito",JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public void clearInputs(){
+	public void clearInputs() {
 		this.limit.getTxt().setText("");
 	}
 
-	public void backPanel(){
-		System.out.println("volviendo");
-		// TODO
-		// manager.makeCardPanel();
-	}
 }
