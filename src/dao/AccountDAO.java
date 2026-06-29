@@ -96,7 +96,7 @@ public class AccountDAO implements CRUD<Account> {
 	}
 
 	public Account ReadAlias(String alias) throws Exception {
-		String sql = "SELECT * FROM accounts WHERE id='" + alias + "'";
+		String sql = "SELECT * FROM accounts WHERE alias='" + alias + "'";
 		Connection c = DBManager.connect();
 		Account a = new Account();
 		try {

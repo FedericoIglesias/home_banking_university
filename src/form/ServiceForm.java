@@ -111,7 +111,7 @@ public class ServiceForm {
 	public Account getByCBU(String CBU) throws Exception {
 		Account acc = null;
 		try {
-			acc = acDAO.ReadAlias(CBU);
+			acc = acDAO.ReadCBU(CBU);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}

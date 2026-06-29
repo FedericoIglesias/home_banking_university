@@ -68,12 +68,11 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 			this.add(emails.getList());
 		} else {
 			this.add(new JLabel(manager.getClient().getEmail()));
+			this.getAccounts(manager.getClient().getId());
+			originId.getList().setSelectedIndex(0);
 		}
 		this.add(originId.getLbl());
 		this.add(originId.getList());
-		if (!manager.getClient().getAdmin()) {
-			this.getAccounts(manager.getClient().getId());
-		}
 		this.add(dstId.getLbl());
 		this.add(dstId.getTxt());
 		this.add(cbu);
@@ -112,14 +111,15 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 			String name = lsAcc.get(i).getType() + " -- " + lsAcc.get(i).getBalance() + " -- " + lsAcc.get(i).getId();
 			list.add(i, name);
 		}
+		
 	}
 
 	public void addTransfers() {
 		Boolean ok = true;
+		String[] parts = originId.getList().getSelectedValue().split(" -- ");
+		Transfer trans = new Transfer();
 		if (checkInputs() && getAccountDst() != -1 && checkBalance()) {
 			try {
-				String[] parts = originId.getList().getSelectedValue().split(" -- ");
-				Transfer trans = new Transfer();
 				trans.setBalance(Integer.parseInt(balance.getTxt().getText()));
 				trans.setDate(new Date().getTime());
 				trans.setDstId(getAccountDst());
