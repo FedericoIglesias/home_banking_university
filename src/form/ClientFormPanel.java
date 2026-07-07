@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import app.ManagerPanel;
+import exception.DAOException;
 import model.Client;
 
 public class ClientFormPanel extends JPanel {
@@ -67,8 +68,8 @@ public class ClientFormPanel extends JPanel {
 							pass.getTxt().getText(), admin.isSelected());
 					try {
 						sf.createClient(c);
-					}catch(Exception er) {
-						JOptionPane.showMessageDialog(manager.getFrame(),er.getMessage(),"Error Guardado", JOptionPane.ERROR_MESSAGE);
+					}catch(DAOException e1) {
+						JOptionPane.showMessageDialog(manager.getFrame(),e1.getMessage(),"Error Guardado", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 					JOptionPane.showMessageDialog(manager.getFrame(),"Exito al guardar usuario","Exito!!", JOptionPane.INFORMATION_MESSAGE);

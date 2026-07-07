@@ -8,66 +8,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.DBManager;
+import exception.DAOException;
 import model.Card;
 
 public class CardDAO implements CRUD<Card> {
 
 	@Override
-	public void Insert(Card c) throws Exception {
-		String sql = "INSERT INTO cards (number,limite,clientId,debt) VALUES('" + c.getNumber() + "','"
-				+ c.getLimit() + "','" + c.getClientId() + "','" + c.getDebt() + "');";
-		Connection co = DBManager.connect();
+	public void Insert(Card ca) {
+		String sql = "INSERT INTO cards (number,limite,clientId,debt) VALUES('" + ca.getNumber() + "','"
+				+ ca.getLimit() + "','" + ca.getClientId() + "','" + ca.getDebt() + "');";
+		Connection c = null;
 		try {
-			Statement s = co.createStatement();
-			s.execute(sql);
-		} catch (SQLException e) {
-			try {
-				co.rollback();
-				throw new Exception(e);
-			} catch (SQLException er) {
-				throw new Exception(er);
-			}
-		} finally {
-			try {
-				co.close();
-			} catch (SQLException e) {
-				throw new Exception(e);
-			}
-		}
-
-	}
-
-	@Override
-	public void Update(Card ca) throws Exception {
-		String sql = "UPDATE cards SET debt=" + ca.getDebt() + ",limite=" + ca.getLimit() + " WHERE " + "number="
-				+ ca.getNumber();
-		Connection c = DBManager.connect();
-		try {
+			c = DBManager.connect();
 			Statement s = c.createStatement();
 			s.execute(sql);
 		} catch (SQLException e) {
 			try {
 				c.rollback();
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			} catch (SQLException er) {
-				throw new Exception(e);
+				throw new DAOException(er.getMessage(), er);
 			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
 		} finally {
 			try {
 				c.close();
 			} catch (SQLException e) {
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			}
 		}
 
 	}
 
 	@Override
-	public Card Read(int id) throws Exception {
+	public void Update(Card ca) {
+		String sql = "UPDATE cards SET debt=" + ca.getDebt() + ",limite=" + ca.getLimit() + " WHERE " + "number="
+				+ ca.getNumber();
+		Connection c = null;
+		try {
+			c = DBManager.connect();
+			Statement s = c.createStatement();
+			s.execute(sql);
+		} catch (SQLException e) {
+			try {
+				c.rollback();
+				throw new DAOException(e.getMessage(), e);
+			} catch (SQLException er) {
+				throw new DAOException(er.getMessage(), er);
+			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
+		} finally {
+			try {
+				c.close();
+			} catch (SQLException e) {
+				throw new DAOException(e.getMessage(), e);
+			}
+		}
+
+	}
+
+	@Override
+	public Card Read(int id) {
 		String sql = "SELECT * FROM cards WHERE number=" + id;
-		Connection c = DBManager.connect();
+		Connection c = null;
 		Card card = new Card();
 		try {
+			c = DBManager.connect();
 			Statement s = c.createStatement();
 			ResultSet rs = s.executeQuery(sql);
 			if (rs.next()) {
@@ -79,15 +87,17 @@ public class CardDAO implements CRUD<Card> {
 		} catch (SQLException e) {
 			try {
 				c.rollback();
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			} catch (SQLException er) {
-				throw new Exception(er);
+				throw new DAOException(er.getMessage(), er);
 			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
 		} finally {
 			try {
 				c.close();
 			} catch (SQLException e) {
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			}
 		}
 
@@ -95,11 +105,12 @@ public class CardDAO implements CRUD<Card> {
 	}
 
 	@Override
-	public List<Card> ReadPool() throws Exception {
+	public List<Card> ReadPool() {
 		List<Card> list = new ArrayList<Card>();
 		String sql = "SELECT * FROM cards";
-		Connection c = DBManager.connect();
+		Connection c = null;
 		try {
+			c = DBManager.connect();
 			Statement s = c.createStatement();
 			ResultSet rs = s.executeQuery(sql);
 			while (rs.next()) {
@@ -113,26 +124,29 @@ public class CardDAO implements CRUD<Card> {
 		} catch (SQLException e) {
 			try {
 				c.rollback();
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			} catch (SQLException er) {
-				throw new Exception(er);
+				throw new DAOException(er.getMessage(), er);
 			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
 		} finally {
 			try {
 				c.close();
 			} catch (SQLException e) {
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			}
 		}
 
 		return list;
 	}
 
-	public List<Card> ReadPoolbyCl(Integer id) throws Exception {
+	public List<Card> ReadPoolbyCl(Integer id) {
 		List<Card> list = new ArrayList<Card>();
 		String sql = "SELECT * FROM cards where clientId = " + id;
-		Connection c = DBManager.connect();
+		Connection c = null;
 		try {
+			c = DBManager.connect();
 			Statement s = c.createStatement();
 			ResultSet rs = s.executeQuery(sql);
 			while (rs.next()) {
@@ -146,15 +160,17 @@ public class CardDAO implements CRUD<Card> {
 		} catch (SQLException e) {
 			try {
 				c.rollback();
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			} catch (SQLException er) {
-				throw new Exception(er);
+				throw new DAOException(er.getMessage(), er);
 			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
 		} finally {
 			try {
 				c.close();
 			} catch (SQLException e) {
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			}
 		}
 
@@ -165,24 +181,27 @@ public class CardDAO implements CRUD<Card> {
 	public void Delete(int id) {
 	}
 
-	public void Delete(String number) throws Exception {
+	public void Delete(String number) {
 		String sql = "DELETE FROM cards WHERE number=" + number;
-		Connection c = DBManager.connect();
+		Connection c = null;
 		try {
+			c = DBManager.connect();
 			Statement s = c.createStatement();
 			s.execute(sql);
 		} catch (SQLException e) {
 			try {
 				c.rollback();
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			} catch (SQLException er) {
-				throw new Exception(er);
+				throw new DAOException(er.getMessage(), er);
 			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
 		} finally {
 			try {
 				c.close();
 			} catch (SQLException e) {
-				throw new Exception(e);
+				throw new DAOException(e.getMessage(), e);
 			}
 		}
 	}

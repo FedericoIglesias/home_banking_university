@@ -7,6 +7,7 @@ import dao.AccountDAO;
 import dao.CardDAO;
 import dao.ClientDAO;
 import dao.TransferDAO;
+import exception.DAOException;
 import model.Account;
 import model.Card;
 import model.Client;
@@ -64,7 +65,7 @@ public class ServiceApp {
 	public void deleteClient(Integer id) throws Exception {
 		try {
 			clDAO.Delete(id);
-		} catch (SQLException e) {
+		} catch (DAOException e) {
 			throw new Exception(e);
 		}
 	}
@@ -73,7 +74,7 @@ public class ServiceApp {
 		List<Client> lsCl = null;
 		try {
 			lsCl = clDAO.ReadPool();
-		} catch (SQLException e) {
+		} catch (DAOException e) {
 			throw new Exception(e);
 		}
 		return lsCl;

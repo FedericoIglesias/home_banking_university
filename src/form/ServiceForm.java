@@ -8,6 +8,7 @@ import dao.AccountDAO;
 import dao.CardDAO;
 import dao.ClientDAO;
 import dao.TransferDAO;
+import exception.DAOException;
 import model.Account;
 import model.Card;
 import model.Client;
@@ -30,11 +31,11 @@ public class ServiceForm {
 		this.manager = manager;
 	}
 
-	public void createClient(Client c) throws Exception {
+	public void createClient(Client c){
 		try {
 			clDAO.Insert(c);
-		} catch (Exception e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new DAOException(e.getMessage(),e);
 		}
 	}
 

@@ -1,8 +1,7 @@
 package table;
 
-import java.sql.SQLException;
-
 import dao.ClientDAO;
+import exception.DAOException;
 import model.Client;
 
 public class ServiceTable {
@@ -16,7 +15,7 @@ public class ServiceTable {
 		Client cl = null;
 		try {
 			cl=clDAO.ReadId(id);
-		}catch(SQLException e) {
+		}catch(DAOException e) {
 			throw new Exception(e);
 		}
 		return cl;
