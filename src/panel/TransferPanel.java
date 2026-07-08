@@ -13,6 +13,7 @@ import javax.swing.JTable;
 
 import app.Buttons;
 import app.ManagerPanel;
+import exception.ServiceException;
 import model.Transfer;
 import table.TransfersTable;
 
@@ -23,6 +24,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 	private JScrollPane scrollPane;
 	private JButton addBtn;
 	private JButton deleteBtn;
+	private JButton resumeBtn;
 	private ManagerPanel manager;
 	private List<Transfer> list;
 	private Buttons btns;
@@ -42,6 +44,8 @@ public class TransferPanel extends JPanel implements ActionListener {
 		scrollPane = new JScrollPane(table);
 		deleteBtn = new JButton("Borrar");
 		addBtn = new JButton("Agregar");
+		resumeBtn = new JButton("Crear Resumen");
+		resumeBtn.addActionListener(this);
 		deleteBtn.addActionListener(this);
 		addBtn.addActionListener(this);
 		this.updateList();
@@ -50,6 +54,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 			this.add(deleteBtn);
 			this.add(addBtn);
 		}
+		this.add(resumeBtn);
 		this.add(btns);
 	}
 
@@ -63,7 +68,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 			model.setTransferList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -74,7 +79,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 			model.setTransferList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -87,6 +92,19 @@ public class TransferPanel extends JPanel implements ActionListener {
 		if (btn == deleteBtn && table.getSelectedRow() != -1) {
 			deleteRow(table.getSelectedRow());
 		}
+		if (btn == resumeBtn) {
+			this.generateResume();
+		}
+	}
+
+	public void generateResume() {
+		try {
+			sa.generateResume(list);
+		} catch (ServiceException e) {
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Exito!!", JOptionPane.ERROR_MESSAGE);
+		}
+		JOptionPane.showMessageDialog(manager.getFrame(), "Archivo creado", "Exito!!", JOptionPane.INFORMATION_MESSAGE);
+
 	}
 
 }

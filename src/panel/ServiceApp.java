@@ -1,5 +1,11 @@
 package panel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import dao.AccountDAO;
@@ -133,6 +139,31 @@ public class ServiceApp {
 			cdDAO.Delete(Number);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void generateResume(List<Transfer> list) {
+		FileWriter fw = null;
+		String name = LocalDate.now().toString();
+		try {
+			File file = new File("./" + name + ".csv");
+			fw = new FileWriter(file);
+			fw.append("id,origenId,dstId,Saldo,fecha\n");
+			for (Transfer tr : list) {
+				String txt = tr.getId().toString() + "," + tr.getOriginId().toString() + "," + tr.getDstId().toString() + ","
+						+ tr.getBalance().toString() + "," + new Date(tr.getDate()).toString();
+				fw.append(txt + "\n");
+			}
+		} catch (FileNotFoundException e) {
+			throw new ServiceException(e.getMessage(), e);
+		} catch (IOException e) {
+			throw new ServiceException(e.getMessage(), e);
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				throw new ServiceException(e.getMessage(), e);
+			}
 		}
 	}
 
