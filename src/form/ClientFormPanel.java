@@ -1,10 +1,6 @@
 package form;
 
-
-import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import app.ManagerPanel;
-import exception.DAOException;
+import exception.ServiceException;
 import model.Client;
 
 public class ClientFormPanel extends JPanel {
@@ -27,7 +23,7 @@ public class ClientFormPanel extends JPanel {
 	private FormLabel email;
 	private FormLabel dni;
 	private FormLabel pass;
-	private ServiceForm  sf = new ServiceForm();  
+	private ServiceForm sf = new ServiceForm();
 
 	public ClientFormPanel(ManagerPanel manager) {
 		this.manager = manager;
@@ -58,82 +54,53 @@ public class ClientFormPanel extends JPanel {
 		this.add(addBtn);
 		this.add(cleanBtn);
 		this.add(backBtn);
-		addBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (checkInputs()) {
-
-					Integer ndi = Integer.parseInt(dni.getTxt().getText());
-					Client c = new Client(name.getTxt().getText(), email.getTxt().getText(), ndi,
-							pass.getTxt().getText(), admin.isSelected());
-					try {
-						sf.createClient(c);
-					}catch(DAOException e1) {
-						JOptionPane.showMessageDialog(manager.getFrame(),e1.getMessage(),"Error Guardado", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					JOptionPane.showMessageDialog(manager.getFrame(),"Exito al guardar usuario","Exito!!", JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-
-		});
-		cleanBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				name.getTxt().setText("");
-				email.getTxt().setText("");
-				dni.getTxt().setText("");
-				pass.getTxt().setText("");
-				admin.setSelected(false);
-			}
-		});
-		backBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				manager.makeClientPanel();
-			}
-		});
 	}
 
 	public Boolean checkInputs() {
-		Boolean flag = false;
-		if (name.getTxt().getText().length() > 30 || name.getTxt().getText().length() == 0) {
-			name.getTxt().setBackground(Color.RED);
-			flag = true;
-		} else {
-			name.getTxt().setBackground(Color.WHITE);
+		if (name.checkText() && email.checkText() && dni.checkNumber() && pass.checkText()) {
+			return true;
 		}
-		if (email.getTxt().getText().length() > 30 || email.getTxt().getText().length() == 0) {
-			email.getTxt().setBackground(Color.RED);
-			flag = true;
-		} else {
-			email.getTxt().setBackground(Color.WHITE);
-		}
+		JOptionPane.showMessageDialog(manager.getFrame(),
+				"e.getMessage()", "Campo invalido",
+				JOptionPane.ERROR_MESSAGE);
+		return false;
+	}
 
-		try {
-			Integer.parseInt(dni.getTxt().getText());
-			dni.getTxt().setBackground(Color.WHITE);
-			if (dni.getTxt().getText().length() > 10) {
-				dni.getTxt().setBackground(Color.RED);
+	public void actionPerformed(ActionEvent e) {
+		Object btn = e.getSource();
+		if (btn == addBtn) {
+			addUser();
+		}
+		if (btn == cleanBtn) {
+			clearInputs();
+		}
+		if (btn == backBtn) {
+			manager.makeClientPanel();
+		}
+	}
+
+	public void clearInputs() {
+		name.clearInput();
+		email.clearInput();
+		dni.clearInput();
+		pass.clearInput();
+	}
+
+	public void addUser() {
+		if (checkInputs()) {
+			Integer ndi = Integer.parseInt(dni.getTxt().getText());
+			Client c = new Client(name.getTxt().getText(), email.getTxt().getText(), ndi,
+					pass.getTxt().getText(), admin.isSelected());
+			try {
+				sf.createClient(c);
+			} catch (ServiceException e) {
+				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado",
+						JOptionPane.ERROR_MESSAGE);
+				return;
 			}
-		} catch (NumberFormatException e) {
-			dni.getTxt().setBackground(Color.RED);
-			flag = true;
+			JOptionPane.showMessageDialog(manager.getFrame(), "Exito al guardar usuario", "Exito!!",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
-
-		if (pass.getTxt().getText().length() > 30 || pass.getTxt().getText().length() == 0) {
-			pass.getTxt().setBackground(Color.RED);
-			flag = true;
-		} else {
-			pass.getTxt().setBackground(Color.WHITE);
-		}
-
-		if (flag) {
-			JOptionPane.showMessageDialog(manager.getFrame(),"Recordá: campos no mayor a 30 caracteres y DNI no mayor de 10 caracteres",
-					"Campo invalido", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		return true;
 	}
 
 }

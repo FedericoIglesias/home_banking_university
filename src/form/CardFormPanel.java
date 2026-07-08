@@ -65,7 +65,7 @@ public class CardFormPanel extends JPanel implements ActionListener {
 	}
 
 	public void clearInputs() {
-		this.limit.getTxt().setText("");
+		this.limit.clearInput();
 	}
 
 }

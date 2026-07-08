@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,9 +20,6 @@ import model.Account;
 import model.Client;
 import model.Transfer;
 
-//  TODO - hacer transferencias por CBU y por alias
-
-
 public class TransfersFormPanel extends JPanel implements ActionListener, ListSelectionListener {
 	private ManagerPanel manager;
 	private JButton addBtn;
@@ -33,9 +29,9 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	private FormLabel dstId;
 	private FormLabel originId;
 	private FormLabel balance;
-	private JCheckBox cbu;
-	private JCheckBox alias;
-	private JCheckBox id;
+	private FormLabel cbu;
+	private FormLabel alias;
+	private FormLabel id;
 
 	private ServiceForm sf = new ServiceForm();
 
@@ -54,9 +50,9 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		emails.getList().addListSelectionListener(this);
 		originId = new FormLabel("Seleccione una cuenta de origen:", list);
 		balance = new FormLabel("Ingrese el valor a transferir: ");
-		cbu = new JCheckBox("CBU");
-		alias = new JCheckBox("Alias");
-		id = new JCheckBox("Id");
+		cbu = new FormLabel("CBU");
+		alias = new FormLabel("Alias");
+		id = new FormLabel("Id");
 		addBtn = new JButton("Agregar");
 		addBtn.addActionListener(this);
 		cleanBtn = new JButton("Limpiar");
@@ -75,9 +71,12 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		this.add(originId.getList());
 		this.add(dstId.getLbl());
 		this.add(dstId.getTxt());
-		this.add(cbu);
-		this.add(id);
-		this.add(alias);
+		this.add(cbu.getLbl());
+		this.add(cbu.getBox());
+		this.add(id.getLbl());
+		this.add(id.getBox());
+		this.add(alias.getLbl());
+		this.add(alias.getBox());
 		this.add(balance.getLbl());
 		this.add(balance.getTxt());
 		this.add(addBtn);
@@ -90,7 +89,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		try {
 			lsCl = sf.getClientPool();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		int i;
 		for (i = 0; i < lsCl.size(); i++) {
@@ -104,14 +103,13 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		try {
 			lsAcc = sf.getAccount(id);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		int i;
 		for (i = 0; i < lsAcc.size(); i++) {
 			String name = lsAcc.get(i).getType() + " -- " + lsAcc.get(i).getBalance() + " -- " + lsAcc.get(i).getId();
 			list.add(i, name);
 		}
-		
 	}
 
 	public void addTransfers() {
@@ -127,55 +125,48 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 				sf.createTransfers(trans);
 				updateAcc(Integer.parseInt(parts[2]), getAccountDst());
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
 				ok = false;
 			}
 			if (ok) {
-				JOptionPane.showMessageDialog(manager.getFrame(),"Transferencia realizada con exito", "Hecho", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(manager.getFrame(), "Transferencia realizada con exito", "Hecho",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
 
 	public Boolean checkInputs() {
 		Boolean flag = false;
-		if (dstId.getTxt().getText().length() > 30 || dstId.getTxt().getText().length() == 0) {
-			dstId.getTxt().setBackground(Color.RED);
-			flag = true;
-		} else {
-			dstId.getTxt().setBackground(Color.WHITE);
-		}
-
-		try {
-			Integer.parseInt(balance.getTxt().getText());
-			balance.getTxt().setBackground(Color.WHITE);
-			if (balance.getTxt().getText().length() > 10) {
-				balance.getTxt().setBackground(Color.RED);
-			}
-		} catch (NumberFormatException e) {
-			balance.getTxt().setBackground(Color.RED);
+		int count = 0;
+		if (!balance.checkNumber() || !originId.checkList()) {
 			flag = true;
 		}
-		if (originId.getList().getSelectedValue() == null) {
-			originId.getList().setBackground(Color.RED);
+		if (alias.checkBox()) {
+			count++;
+		}
+		if (id.checkBox()) {
+			count++;
+		}
+		if (cbu.checkBox()) {
+			count++;
+		}
+		if (count == 0 || count > 1) {
+			cbu.getBox().setBackground(Color.RED);
+			id.getBox().setBackground(Color.RED);
+			alias.getBox().setBackground(Color.RED);
+		} else {
+			cbu.getBox().setBackground(Color.WHITE);
+			id.getBox().setBackground(Color.WHITE);
+			alias.getBox().setBackground(Color.WHITE);
+		}
+		if (id.checkBox() && !dstId.checkNumber()) {
 			flag = true;
 		} else {
-			originId.getList().setBackground(Color.WHITE);
+			dstId.checkText();
 		}
-
-		if ((cbu.isSelected() && alias.isSelected()) || (id.isSelected() && alias.isSelected())
-				|| (cbu.isSelected() && id.isSelected())
-				|| (!id.isSelected() && !alias.isSelected() && !cbu.isSelected())) {
-			cbu.setBackground(Color.RED);
-			id.setBackground(Color.RED);
-			alias.setBackground(Color.RED);
-		} else {
-			cbu.setBackground(Color.WHITE);
-			id.setBackground(Color.WHITE);
-			alias.setBackground(Color.WHITE);
-		}
-
 		if (flag) {
-			JOptionPane.showMessageDialog(manager.getFrame(),"Recordá: campos no mayor a 30 caracteres y DNI no mayor de 10 caracteres",
+			JOptionPane.showMessageDialog(manager.getFrame(),
+					"Recordá: campos no mayor a 30 caracteres,\n seleccionar solo una opción de destino",
 					"Campo invalido", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -183,12 +174,12 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	}
 
 	private void clearInputs() {
-		dstId.getTxt().setText("");
-		originId.getList().clearSelection();
-		balance.getTxt().setText("");
-		cbu.setSelected(false);
-		alias.setSelected(false);
-		id.setSelected(false);
+		this.dstId.clearInput();
+		this.originId.clearInput();
+		this.balance.clearInput();
+		this.cbu.clearCheck();
+		this.alias.clearCheck();
+		this.id.clearCheck();
 	}
 
 	@Override
@@ -215,7 +206,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 				id = sf.getClient(selected).getId();
 
 			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(manager.getFrame(),e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(manager.getFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			getAccounts(id);
 		}
@@ -224,21 +215,21 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	public int getAccountDst() {
 		Object ids = null;
 		try {
-
-			if (cbu.isSelected()) {
+			if (cbu.checkBox()) {
 				ids = sf.getByCBU(dstId.getTxt().getText()).getId();
 			}
-			if (id.isSelected()) {
+			if (id.checkBox()) {
 				ids = Integer.parseInt(dstId.getTxt().getText());
 			}
-			if (alias.isSelected()) {
+			if (alias.checkBox()) {
 				ids = sf.getByAlias(dstId.getTxt().getText()).getId();
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error archivos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error archivos", JOptionPane.ERROR_MESSAGE);
 		}
 		if (ids == null) {
-			JOptionPane.showMessageDialog(manager.getFrame(),"Cuenta destino no encontrada", "No encontrado", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), "Cuenta destino no encontrada", "No encontrado",
+					JOptionPane.INFORMATION_MESSAGE);
 			return -1;
 		} else {
 			return (int) ids;
@@ -248,7 +239,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	public Boolean checkBalance() {
 		String[] parts = originId.getList().getSelectedValue().split(" -- ");
 		if (Integer.parseInt(balance.getTxt().getText()) > Integer.parseInt(parts[1])) {
-			JOptionPane.showMessageDialog(manager.getFrame(),"Insuficiente saldo", "Sin fondos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), "Insuficiente saldo", "Sin fondos", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;
@@ -259,7 +250,8 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		try {
 			sf.updateAllAcc(oriId, dstId, blc);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Problema de archivos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Problema de archivos",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
