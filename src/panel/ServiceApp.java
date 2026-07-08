@@ -8,6 +8,7 @@ import dao.CardDAO;
 import dao.ClientDAO;
 import dao.TransferDAO;
 import exception.DAOException;
+import exception.ServiceException;
 import model.Account;
 import model.Card;
 import model.Client;
@@ -28,8 +29,8 @@ public class ServiceApp {
 		List<Account> lsAcc = null;
 		try {
 			lsAcc = acDAO.ReadClientId(id);
-		} catch (SQLException e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsAcc;
 	}
@@ -38,8 +39,8 @@ public class ServiceApp {
 		List<Transfer> lsTr = null;
 		try {
 			lsTr = trDAO.ReadTrCl(id);
-		} catch (SQLException e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsTr;
 	}
@@ -48,8 +49,8 @@ public class ServiceApp {
 		List<Account> lsAcc = null;
 		try {
 			lsAcc = acDAO.ReadPool();
-		} catch (SQLException e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsAcc;
 	}
@@ -57,8 +58,8 @@ public class ServiceApp {
 	public void deleteAcc(Integer id) throws Exception {
 		try {
 			new AccountDAO().Delete(id);
-		} catch (SQLException e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -66,7 +67,7 @@ public class ServiceApp {
 		try {
 			clDAO.Delete(id);
 		} catch (DAOException e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -75,7 +76,7 @@ public class ServiceApp {
 		try {
 			lsCl = clDAO.ReadPool();
 		} catch (DAOException e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsCl;
 	}
@@ -84,8 +85,8 @@ public class ServiceApp {
 		Client cl = null;
 		try {
 			cl = clDAO.Read(dni);
-		} catch (SQLException e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return cl;
 	}
@@ -94,8 +95,8 @@ public class ServiceApp {
 		List<Transfer> lsTr = null;
 		try {
 			lsTr = trDAO.ReadPool();
-		} catch (SQLException e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsTr;
 	}
@@ -103,8 +104,8 @@ public class ServiceApp {
 	public void deleteTr(Integer id) throws Exception {
 		try {
 			trDAO.Delete(id);
-		} catch (SQLException e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -112,8 +113,8 @@ public class ServiceApp {
 		List<Card> listCards = null;
 		try {
 			listCards = cdDAO.ReadPool();
-		} catch (Exception e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return listCards;
 	}
@@ -122,18 +123,17 @@ public class ServiceApp {
 		List<Card> listCards = null;
 		try {
 			listCards = cdDAO.ReadPoolbyCl(id);
-		} catch (Exception e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return listCards;
 	}
 
-
 	public void deleteCard(String Number) throws Exception {
 		try {
 			cdDAO.Delete(Number);
-		} catch (Exception e) {
-			throw new Exception(e);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 

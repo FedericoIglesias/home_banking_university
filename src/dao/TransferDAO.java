@@ -42,7 +42,7 @@ public class TransferDAO implements CRUD<Transfer> {
 	}
 
 	@Override
-	public void Update(Transfer t) throws Exception {
+	public void Update(Transfer t){
 		String sql = "UPDATE transfers SET dstId=" + t.getDstId() + ",originId=" + t.getOriginId() + ",balance="
 				+ t.getBalance() + ",date=" + t.getDate() + " WHERE " + "id=" + t.getId();
 		Connection c = null;
@@ -70,7 +70,7 @@ public class TransferDAO implements CRUD<Transfer> {
 	}
 
 	@Override
-	public Transfer Read(int id) throws Exception {
+	public Transfer Read(int id) {
 		String sql = "SELECT * FROM transfers WHERE id=" + id;
 		Connection c = null;
 		Transfer transfer = new Transfer();
@@ -104,7 +104,7 @@ public class TransferDAO implements CRUD<Transfer> {
 		return transfer;
 	}
 
-	public Transfer ReadCBU(Long CBU) throws Exception {
+	public Transfer ReadCBU(Long CBU) {
 		String sql = "SELECT * FROM transfers WHERE cbu=" + CBU;
 		Connection c = null;
 		Transfer transfer = new Transfer();
@@ -139,7 +139,7 @@ public class TransferDAO implements CRUD<Transfer> {
 		return transfer;
 	}
 
-	public Transfer ReadAlias(String alias) throws Exception {
+	public Transfer ReadAlias(String alias) {
 		String sql = "SELECT * FROM transfers WHERE alias='" + alias + "'";
 		Connection c = null;
 		Transfer transfer = new Transfer();
@@ -175,7 +175,7 @@ public class TransferDAO implements CRUD<Transfer> {
 	}
 
 	@Override
-	public List<Transfer> ReadPool() throws Exception {
+	public List<Transfer> ReadPool(){
 		List<Transfer> list = new ArrayList<Transfer>();
 		String sql = "SELECT * FROM transfers";
 		Connection c = null;
@@ -213,7 +213,7 @@ public class TransferDAO implements CRUD<Transfer> {
 	}
 
 	@Override
-	public void Delete(int id) throws Exception {
+	public void Delete(int id) {
 		String sql = "DELETE FROM transfers WHERE id=" + id;
 		Connection c = null;
 		try {

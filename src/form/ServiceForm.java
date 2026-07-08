@@ -9,6 +9,7 @@ import dao.CardDAO;
 import dao.ClientDAO;
 import dao.TransferDAO;
 import exception.DAOException;
+import exception.ServiceException;
 import model.Account;
 import model.Card;
 import model.Client;
@@ -31,11 +32,11 @@ public class ServiceForm {
 		this.manager = manager;
 	}
 
-	public void createClient(Client c){
+	public void createClient(Client c) {
 		try {
 			clDAO.Insert(c);
 		} catch (DAOException e) {
-			throw new DAOException(e.getMessage(),e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -43,7 +44,7 @@ public class ServiceForm {
 		try {
 			acDAO.Insert(acc);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -52,7 +53,7 @@ public class ServiceForm {
 		try {
 			client = new ClientDAO().Read(email);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return client;
 	}
@@ -62,7 +63,7 @@ public class ServiceForm {
 		try {
 			lsC = new ClientDAO().ReadPool();
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsC;
 	}
@@ -72,7 +73,7 @@ public class ServiceForm {
 		try {
 			acc = acDAO.ReadClientId(id);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return acc;
 	}
@@ -81,7 +82,7 @@ public class ServiceForm {
 		try {
 			trDAO.Insert(trans);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -95,7 +96,7 @@ public class ServiceForm {
 			acc.setBalance(acc.getBalance() + blc);
 			new AccountDAO().Update(acc);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -104,7 +105,7 @@ public class ServiceForm {
 		try {
 			acc = acDAO.ReadAlias(alias);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return acc;
 	}
@@ -114,7 +115,7 @@ public class ServiceForm {
 		try {
 			acc = acDAO.ReadCBU(CBU);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		return acc;
 	}
@@ -128,7 +129,7 @@ public class ServiceForm {
 		try {
 			cdDAO.Insert(card);
 		} catch (Exception e) {
-			throw new Exception(e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
