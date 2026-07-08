@@ -1,6 +1,5 @@
 package panel;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import dao.AccountDAO;
