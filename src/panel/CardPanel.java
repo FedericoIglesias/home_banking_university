@@ -26,7 +26,7 @@ public class CardPanel extends JPanel implements ActionListener {
   private ManagerPanel manager;
   private List<Card> list;
   private Buttons btns;
-  private CardService cardSer = new CardService();
+  private CardService cardSer = new CardService(manager);
 
   public CardPanel(ManagerPanel manager) {
     super();

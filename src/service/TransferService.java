@@ -72,4 +72,14 @@ public class TransferService {
 			}
 		}
 	}
+
+  public void createTransfers(Transfer trans) throws Exception {
+		try {
+			trDAO.Insert(trans);
+		} catch (Exception e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+  
 }

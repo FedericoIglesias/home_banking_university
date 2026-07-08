@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import app.ManagerPanel;
 import exception.ServiceException;
 import model.Client;
+import service.ClientService;
 
 public class ClientFormPanel extends JPanel {
 	private JButton addBtn;
@@ -23,7 +24,7 @@ public class ClientFormPanel extends JPanel {
 	private FormLabel email;
 	private FormLabel dni;
 	private FormLabel pass;
-	private ServiceForm sf = new ServiceForm();
+	private ClientService clSer = new ClientService();
 
 	public ClientFormPanel(ManagerPanel manager) {
 		this.manager = manager;
@@ -92,7 +93,7 @@ public class ClientFormPanel extends JPanel {
 			Client c = new Client(name.getTxt().getText(), email.getTxt().getText(), ndi,
 					pass.getTxt().getText(), admin.isSelected());
 			try {
-				sf.createClient(c);
+				clSer.createClient(c);
 			} catch (ServiceException e) {
 				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado",
 						JOptionPane.ERROR_MESSAGE);

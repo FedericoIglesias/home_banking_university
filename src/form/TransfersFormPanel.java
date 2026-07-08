@@ -19,6 +19,9 @@ import app.ManagerPanel;
 import model.Account;
 import model.Client;
 import model.Transfer;
+import service.AccountService;
+import service.ClientService;
+import service.TransferService;
 
 public class TransfersFormPanel extends JPanel implements ActionListener, ListSelectionListener {
 	private ManagerPanel manager;
@@ -32,8 +35,9 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	private FormLabel cbu;
 	private FormLabel alias;
 	private FormLabel id;
-
-	private ServiceForm sf = new ServiceForm();
+	private TransferService trSer = new TransferService();
+	private ClientService clSer = new ClientService();
+	private AccountService accSer = new AccountService();
 
 	private DefaultListModel<String> list = new DefaultListModel<>();
 	private DefaultListModel<String> listEmails = new DefaultListModel<>();
@@ -87,7 +91,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	private void getEmail() {
 		List<Client> lsCl = null;
 		try {
-			lsCl = sf.getClientPool();
+			lsCl = clSer.getClientPool();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -101,7 +105,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		List<Account> lsAcc = null;
 		list.removeAllElements();
 		try {
-			lsAcc = sf.getAccount(id);
+			lsAcc = accSer.getAccount(id);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -122,7 +126,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 				trans.setDate(new Date().getTime());
 				trans.setDstId(getAccountDst());
 				trans.setOriginId(Integer.parseInt(parts[2]));
-				sf.createTransfers(trans);
+				trSer.createTransfers(trans);
 				updateAcc(Integer.parseInt(parts[2]), getAccountDst());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
@@ -203,7 +207,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 			String selected = emails.getList().getSelectedValue();
 			int id = 0;
 			try {
-				id = sf.getClient(selected).getId();
+				id = clSer.getClient(selected).getId();
 
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(manager.getFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -216,13 +220,13 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		Object ids = null;
 		try {
 			if (cbu.checkBox()) {
-				ids = sf.getByCBU(dstId.getTxt().getText()).getId();
+				ids = accSer.getByCBU(dstId.getTxt().getText()).getId();
 			}
 			if (id.checkBox()) {
 				ids = Integer.parseInt(dstId.getTxt().getText());
 			}
 			if (alias.checkBox()) {
-				ids = sf.getByAlias(dstId.getTxt().getText()).getId();
+				ids = accSer.getByAlias(dstId.getTxt().getText()).getId();
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error archivos", JOptionPane.ERROR_MESSAGE);
@@ -248,7 +252,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	public void updateAcc(Integer oriId, Integer dstId) {
 		Integer blc = Integer.parseInt(balance.getTxt().getText());
 		try {
-			sf.updateAllAcc(oriId, dstId, blc);
+			accSer.updateAllAcc(oriId, dstId, blc);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Problema de archivos",
 					JOptionPane.ERROR_MESSAGE);

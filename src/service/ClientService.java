@@ -41,6 +41,7 @@ public class ClientService {
 		}
 		return lsCl;
 	}
+
 	public Client loginUser(Integer dni) throws Exception {
 		Client cl = null;
 		try {
@@ -49,6 +50,34 @@ public class ClientService {
 			throw new ServiceException(e.getMessage(), e);
 		}
 		return cl;
+	}
+
+	public void createClient(Client c) {
+		try {
+			clDAO.Insert(c);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public Client getClient(String email) throws Exception {
+		Client client = null;
+		try {
+			client = clDAO.Read(email);
+		} catch (Exception e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+		return client;
+	}
+
+	public List<Client> getClientPool() throws Exception {
+		List<Client> lsC = null;
+		try {
+			lsC = clDAO.ReadPool();
+		} catch (Exception e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+		return lsC;
 	}
 
 }

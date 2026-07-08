@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import app.ManagerPanel;
+import service.CardService;
 
 public class CardFormPanel extends JPanel implements ActionListener {
 
@@ -17,7 +18,7 @@ public class CardFormPanel extends JPanel implements ActionListener {
 	private JButton addBtn;
 	private JButton clearBtn;
 	private JButton backBtn;
-	private ServiceForm sf;
+	private CardService cardSer = new CardService(manager);
 
 	public CardFormPanel(ManagerPanel manager) {
 		this.manager = manager;
@@ -55,8 +56,7 @@ public class CardFormPanel extends JPanel implements ActionListener {
 
 	public void addCard(){
 			try {
-				sf = new ServiceForm(manager);
-				sf.createCard(Integer.parseInt(limit.getTxt().getText()));
+				cardSer.createCard(Integer.parseInt(limit.getTxt().getText()));
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 				return;

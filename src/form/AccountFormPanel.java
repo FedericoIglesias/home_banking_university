@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import app.ManagerPanel;
 import model.Account;
 import model.Client;
+import service.AccountService;
+import service.ClientService;
 
 public class AccountFormPanel extends JPanel implements ActionListener {
 
@@ -26,7 +28,8 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 	private FormLabel list;
 	private Client client;
 	private String[] t = { "Cuenta Corriente", "Caja Ahorro", "Cuenta Dolares", "Cuenta Sueldo" };
-	private ServiceForm sf = new ServiceForm();
+	private AccountService accSer = new AccountService();
+	private ClientService clSer = new ClientService();
 
 	public AccountFormPanel(ManagerPanel manager) {
 		this.manager = manager;
@@ -79,7 +82,7 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 				Integer blc = Integer.parseInt(balance.getTxt().getText());
 				Account acc = new Account(blc, CBU, alias.getTxt().getText(), list.getList().getSelectedValue(),
 						client.getId());
-				sf.createAccount(acc);
+				accSer.createAccount(acc);
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(manager.getFrame(), "Saldo invalido", "Error de numero",
 						JOptionPane.ERROR_MESSAGE);
@@ -141,7 +144,7 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 
 	private void getClient() {
 		try {
-			client = sf.getClient(email.getTxt().getText());
+			client = clSer.getClient(email.getTxt().getText());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Extrayendo datos",
 					JOptionPane.ERROR_MESSAGE);

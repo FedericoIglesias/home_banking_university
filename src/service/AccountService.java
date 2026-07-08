@@ -41,4 +41,55 @@ public class AccountService {
     }
   }
 
+  public void createAccount(Account acc) throws Exception {
+    try {
+      acDAO.Insert(acc);
+    } catch (Exception e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+  }
+
+  public List<Account> getAccount(Integer id) throws Exception {
+    List<Account> acc = null;
+    try {
+      acc = acDAO.ReadClientId(id);
+    } catch (Exception e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+    return acc;
+  }
+
+  public Account getByAlias(String alias) throws Exception {
+    Account acc = null;
+    try {
+      acc = acDAO.ReadAlias(alias);
+    } catch (Exception e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+    return acc;
+  }
+
+  public Account getByCBU(String CBU) throws Exception {
+    Account acc = null;
+    try {
+      acc = acDAO.ReadCBU(CBU);
+    } catch (Exception e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+    return acc;
+  }
+
+  public void updateAllAcc(Integer oriId, Integer dstId, Integer blc) throws Exception {
+    Account acc = null;
+    try {
+      acc = acDAO.Read(oriId);
+      acc.setBalance(acc.getBalance() - blc);
+      acDAO.Update(acc);
+      acc = acDAO.Read(dstId);
+      acc.setBalance(acc.getBalance() + blc);
+      acDAO.Update(acc);
+    } catch (Exception e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+  }
 }
