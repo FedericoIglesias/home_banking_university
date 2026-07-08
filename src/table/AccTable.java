@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import app.ManagerPanel;
 import model.Account;
+import service.ClientService;
 
 public class AccTable extends AbstractTableModel {
 
@@ -17,7 +18,7 @@ public class AccTable extends AbstractTableModel {
 	private static final int COLUMN_BALANCE = 4;
 	private static final int COLUMN_CLIENTID = 5;
 	private ManagerPanel manager;
-	private ServiceTable st = new ServiceTable();
+	private ClientService sv = new ClientService();
 
 	private String[] columnsName = { "ID", "Alias", "Tipo", "CBU", "Saldo", "Cliente" };
 
@@ -108,9 +109,9 @@ public class AccTable extends AbstractTableModel {
 	private String getClient(int id) {
 		String name = "";
 		try {
-			name = st.getClient(id).getName();
+			name = sv.getClient(id).getName();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return name;
 	}

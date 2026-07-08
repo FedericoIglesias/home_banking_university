@@ -15,6 +15,7 @@ import app.Buttons;
 import app.ManagerPanel;
 import exception.ServiceException;
 import model.Transfer;
+import service.TransferService;
 import table.TransfersTable;
 
 public class TransferPanel extends JPanel implements ActionListener {
@@ -28,7 +29,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 	private ManagerPanel manager;
 	private List<Transfer> list;
 	private Buttons btns;
-	private ServiceApp sa = new ServiceApp();
+	private TransferService trSer = new TransferService();
 
 	public TransferPanel(ManagerPanel m) {
 		super();
@@ -61,9 +62,9 @@ public class TransferPanel extends JPanel implements ActionListener {
 	private void updateList() {
 		try {
 			if (manager.getClient().getAdmin()) {
-				list = sa.getPoolTr();
+				list = trSer.getPoolTr();
 			} else {
-				list = sa.getTrCl(manager.getClient().getId());
+				list = trSer.getTrCl(manager.getClient().getId());
 			}
 			model.setTransferList(list);
 			model.fireTableDataChanged();
@@ -74,7 +75,7 @@ public class TransferPanel extends JPanel implements ActionListener {
 
 	public void deleteRow(int id) {
 		try {
-			sa.deleteTr(list.get(id).getId());
+			trSer.deleteTr(list.get(id).getId());
 			list.remove(id);
 			model.setTransferList(list);
 			model.fireTableDataChanged();
@@ -99,9 +100,9 @@ public class TransferPanel extends JPanel implements ActionListener {
 
 	public void generateResume() {
 		try {
-			sa.generateResume(list);
+			trSer.generateResume(list);
 		} catch (ServiceException e) {
-			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Exito!!", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		JOptionPane.showMessageDialog(manager.getFrame(), "Archivo creado", "Exito!!", JOptionPane.INFORMATION_MESSAGE);
 

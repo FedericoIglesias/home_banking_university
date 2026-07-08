@@ -14,9 +14,10 @@ import javax.swing.JTable;
 import app.Buttons;
 import app.ManagerPanel;
 import model.Account;
+import service.AccountService;
 import table.AccTable;
 
-public class AccPanel extends JPanel implements ActionListener{
+public class AccPanel extends JPanel implements ActionListener {
 
 	private JTable table;
 	private AccTable model;
@@ -25,7 +26,7 @@ public class AccPanel extends JPanel implements ActionListener{
 	private JButton deleteBtn;
 	private ManagerPanel manager;
 	private List<Account> list;
-	private ServiceApp sa= new ServiceApp();
+	private AccountService accSer = new AccountService();
 	private Buttons btns;
 
 	public AccPanel(ManagerPanel m) {
@@ -50,29 +51,29 @@ public class AccPanel extends JPanel implements ActionListener{
 		this.add(addBtn);
 		this.add(btns);
 	}
-	
+
 	public void updateList() {
 		try {
-			if(manager.getClient().getAdmin()){	
-				list = sa.getPoolAcc();
-			}else{
-				list = sa.getAccCl(manager.getClient().getId());
+			if (manager.getClient().getAdmin()) {
+				list = accSer.getPoolAcc();
+			} else {
+				list = accSer.getAccCl(manager.getClient().getId());
 			}
 			model.setAccountList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	public void deleteRow(int id) {
 		try {
-			sa.deleteAcc(list.get(id).getId()); 
+			accSer.deleteAcc(list.get(id).getId());
 			list.remove(id);
 			model.setAccountList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

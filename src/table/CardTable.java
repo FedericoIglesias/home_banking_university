@@ -8,6 +8,7 @@ import javax.swing.table.AbstractTableModel;
 
 import app.ManagerPanel;
 import model.Card;
+import service.ClientService;
 
 public class CardTable extends AbstractTableModel {
 
@@ -16,7 +17,7 @@ public class CardTable extends AbstractTableModel {
   private static final int COLUMN_NAME = 2;
   private static final int COLUMN_DEBITO = 3;
   private ManagerPanel manager;
-  private ServiceTable st= new  ServiceTable();
+  private ClientService sv= new  ClientService();
 
   private String[] columnsName = { "Numero", "Limite", "Nombre", "Debito" };
 
@@ -100,7 +101,7 @@ public class CardTable extends AbstractTableModel {
   private String getName(Integer id) {
     String name = "";
     try {
-      name = st.getClient(id).getName();
+      name = sv.getClient(id).getName();
     } catch (Exception e) {
       JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error", JDialog.ERROR);
     }

@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import app.ManagerPanel;
 import form.FormLabel;
 import model.Client;
+import service.ClientService;
 
 public class LoginPanel extends JPanel implements ActionListener {
 
@@ -18,8 +19,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private ManagerPanel manager;
 	private FormLabel dni;
 	private FormLabel pass;
-	// private JOptionPane disclaimer = new JOptionPane();
-	private ServiceApp sa = new ServiceApp();
+	private ClientService clSer = new ClientService();
 
 	public LoginPanel(ManagerPanel manager) {
 		super();
@@ -43,7 +43,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private void logIn() {
 		try {
 			int id = Integer.parseInt(dni.getTxt().getText());
-			Client cl = sa.loginUser(id);
+			Client cl = clSer.loginUser(id);
 			if (pass.getTxt().getText().equals(cl.getPass())) {
 				manager.setClient(cl);
 				if (manager.getClient().getAdmin()) {

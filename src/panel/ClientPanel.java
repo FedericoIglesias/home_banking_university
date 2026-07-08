@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import app.Buttons;
 import app.ManagerPanel;
 import model.Client;
+import service.ClientService;
 import table.ClientTable;
 
 public class ClientPanel extends JPanel implements ActionListener {
@@ -26,7 +27,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 	private ManagerPanel manager;
 	private List<Client> list;
 	private Buttons btns;
-	private ServiceApp sa=new ServiceApp();
+	private ClientService clSer = new ClientService();
 
 	public ClientPanel(ManagerPanel m) {
 		super();
@@ -50,25 +51,25 @@ public class ClientPanel extends JPanel implements ActionListener {
 		this.add(addBtn);
 		this.add(btns);
 	}
-	
+
 	private void updateList() {
 		try {
-			list = sa.getPoolCl();
+			list = clSer.getPoolCl();
 			model.setClientList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	public void deleteRow(int id) {
 		try {
-			sa.deleteClient(list.get(id).getDni());
+			clSer.deleteClient(list.get(id).getDni());
 			list.remove(id);
 			model.setClientList(list);
 			model.fireTableDataChanged();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
