@@ -1,4 +1,4 @@
-package form;
+package app;
 
 import java.awt.Color;
 import java.awt.Dimension;

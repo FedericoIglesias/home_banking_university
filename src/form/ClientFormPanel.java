@@ -1,6 +1,7 @@
 package form;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -9,12 +10,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import app.FormLabel;
 import app.ManagerPanel;
 import exception.ServiceException;
 import model.Client;
 import service.ClientService;
 
-public class ClientFormPanel extends JPanel {
+public class ClientFormPanel extends JPanel implements ActionListener {
 	private JButton addBtn;
 	private JButton cleanBtn;
 	private JButton backBtn;
@@ -39,10 +41,12 @@ public class ClientFormPanel extends JPanel {
 		admin = new JCheckBox("Es admin");
 		addBtn = new JButton("Agregar");
 		addBtn.setSize(100, 20);
+		addBtn.addActionListener(this);
 		cleanBtn = new JButton("Limpiar");
 		cleanBtn.setSize(100, 20);
+		cleanBtn.addActionListener(this);
 		backBtn = new JButton("Volver");
-		backBtn.setSize(100, 20);
+		backBtn.addActionListener(this);
 		this.add(name.getLbl());
 		this.add(name.getTxt());
 		this.add(email.getLbl());
@@ -67,6 +71,7 @@ public class ClientFormPanel extends JPanel {
 		return false;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object btn = e.getSource();
 		if (btn == addBtn) {

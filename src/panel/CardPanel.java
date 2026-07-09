@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import app.Buttons;
+import app.DebtForm;
 import app.ManagerPanel;
 import model.Card;
 import service.CardService;
@@ -23,10 +24,12 @@ public class CardPanel extends JPanel implements ActionListener {
   private JScrollPane scrollPane;
   private JButton addBtn;
   private JButton deleteBtn;
+  // private JButton debBtn;
   private ManagerPanel manager;
   private List<Card> list;
   private Buttons btns;
   private CardService cardSer = new CardService(manager);
+  private DebtForm dbForm;
 
   public CardPanel(ManagerPanel manager) {
     super();
@@ -37,6 +40,9 @@ public class CardPanel extends JPanel implements ActionListener {
     this.setLayout(new FlowLayout());
     btns = new Buttons(manager);
     btns.makePanel();
+    dbForm = new DebtForm();
+    dbForm.makePanel();
+    dbForm.getDebtBtn().addActionListener(this);
     model = new CardTable();
     table = new JTable(model);
     scrollPane = new JScrollPane(table);
@@ -49,6 +55,8 @@ public class CardPanel extends JPanel implements ActionListener {
     if (!manager.getClient().getAdmin()) {
       this.add(deleteBtn);
       this.add(addBtn);
+    } else {
+      this.add(dbForm);
     }
     this.add(btns);
   }
@@ -86,6 +94,9 @@ public class CardPanel extends JPanel implements ActionListener {
     }
     if (btn == deleteBtn && table.getSelectedRow() != -1) {
       deleteRow(table.getSelectedRow());
+    }
+    if (btn == dbForm.getDebtBtn() && table.getSelectedRow() != -1) {
+      System.out.println(list.get(table.getSelectedRow()).getNumber());
     }
   }
 

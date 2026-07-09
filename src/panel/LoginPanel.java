@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import app.FormLabel;
 import app.ManagerPanel;
-import form.FormLabel;
 import model.Client;
 import service.ClientService;
 

@@ -57,4 +57,23 @@ public class CardService {
       throw new ServiceException(e.getMessage(), e);
     }
   }
+
+  public void generationCredit(int idCard,int debt) {
+    Card cd = null;
+    try {
+      cd = cdDAO.Read(idCard);
+    } catch (DAOException e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+    if(cd.getLimit() > debt + cd.getDebt()){
+      throw new ServiceException("Nuevo debito supera el limite", null);
+    }
+    try{
+      cd.setDebt(debt + cd.getDebt());
+      cdDAO.Update(cd);
+    }catch(DAOException e){
+      throw new ServiceException(e.getMessage(), e);
+    }
+
+  }
 }

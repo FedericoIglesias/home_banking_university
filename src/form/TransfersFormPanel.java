@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import app.FormLabel;
 import app.ManagerPanel;
 import model.Account;
 import model.Client;
