@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import app.Buttons;
 import app.DebtForm;
 import app.ManagerPanel;
+import exception.ServiceException;
 import model.Card;
 import service.CardService;
 import table.CardTable;
@@ -24,7 +25,6 @@ public class CardPanel extends JPanel implements ActionListener {
   private JScrollPane scrollPane;
   private JButton addBtn;
   private JButton deleteBtn;
-  // private JButton debBtn;
   private ManagerPanel manager;
   private List<Card> list;
   private Buttons btns;
@@ -96,8 +96,16 @@ public class CardPanel extends JPanel implements ActionListener {
       deleteRow(table.getSelectedRow());
     }
     if (btn == dbForm.getDebtBtn() && table.getSelectedRow() != -1) {
-      System.out.println(list.get(table.getSelectedRow()).getNumber());
+      try {
+        dbForm.check();
+        String id = list.get(table.getSelectedRow()).getNumber();
+        int debt = Integer.parseInt(dbForm.getFormLabel().getTxt().getText());
+        cardSer.generationCredit(id, debt);
+      } catch (ServiceException er) {
+        JOptionPane.showMessageDialog(manager.getFrame(), er.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+      }
+      JOptionPane.showMessageDialog(manager.getFrame(), "Debito generado", "Exito!!!", JOptionPane.INFORMATION_MESSAGE);
+      updateList();
     }
   }
-
 }

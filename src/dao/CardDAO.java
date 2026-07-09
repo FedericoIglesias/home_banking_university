@@ -104,6 +104,40 @@ public class CardDAO implements CRUD<Card> {
 		return card;
 	}
 
+	public Card Read(String id) {
+		String sql = "SELECT * FROM cards WHERE number=" + id;
+		Connection c = null;
+		Card card = new Card();
+		try {
+			c = DBManager.connect();
+			Statement s = c.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			if (rs.next()) {
+				card.setNumber(rs.getString("number"));
+				card.setLimit(rs.getInt("limite"));
+				card.setDebt(rs.getInt("debt"));
+				card.setClientId(rs.getInt("clientId"));
+			}
+		} catch (SQLException e) {
+			try {
+				c.rollback();
+				throw new DAOException(e.getMessage(), e);
+			} catch (SQLException er) {
+				throw new DAOException(er.getMessage(), er);
+			}
+		} catch (Exception e) {
+			throw new DAOException(e.getMessage(), e);
+		} finally {
+			try {
+				c.close();
+			} catch (SQLException e) {
+				throw new DAOException(e.getMessage(), e);
+			}
+		}
+
+		return card;
+	}
+
 	@Override
 	public List<Card> ReadPool() {
 		List<Card> list = new ArrayList<Card>();

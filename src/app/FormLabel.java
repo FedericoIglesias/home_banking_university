@@ -10,6 +10,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import exception.ServiceException;
+
 public class FormLabel extends JPanel {
 	private JLabel lbl;
 	private JTextField txt = new JTextField("");
@@ -78,20 +80,18 @@ public class FormLabel extends JPanel {
 	}
 
 	public Boolean checkNumber() {
-		Boolean flag = true;
 		if (txt.getText().length() > 30 || txt.getText().length() == 0) {
-			flag = false;
 			txt.setBackground(Color.red);
+			throw new ServiceException("campo con mas de 30 digitos o sin digito", null);
 		} else {
 			txt.setBackground(Color.white);
 		}
 		try {
 			Integer.parseInt(txt.getText());
+			return true;
 		} catch (NumberFormatException e) {
-			flag = false;
 			txt.setBackground(Color.red);
-		} finally {
-			return flag;
+			throw new ServiceException("Verificque que ingresó numeros", e);
 		}
 	}
 

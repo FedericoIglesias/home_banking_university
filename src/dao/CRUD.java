@@ -2,15 +2,14 @@ package dao;
 
 import java.util.List;
 
-
 public interface CRUD<T> {
-	void Insert(T t) throws Exception;
+	void Insert(T t);
 
-	void Update(T t) throws Exception;
+	void Update(T t);
 
-	T Read(int id) throws Exception;
+	T Read(int id);
 
-	List<T> ReadPool() throws Exception;
+	List<T> ReadPool();
 
-	void Delete(int id) throws Exception;
+	void Delete(int id);
 }

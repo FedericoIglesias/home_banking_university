@@ -14,7 +14,7 @@ import model.Client;
 public class ClientDAO implements CRUD<Client> {
 
 	@Override
-	public void Insert(Client client){
+	public void Insert(Client client) {
 		String sql = "INSERT INTO users(name,email,pass,dni,admin) VALUES('" + client.getName() + "','"
 				+ client.getEmail() + "','" + client.getPass() + "','" + client.getDni() + "','" + client.getAdmin()
 				+ "');";
@@ -26,9 +26,9 @@ public class ClientDAO implements CRUD<Client> {
 		} catch (SQLException e) {
 			try {
 				c.rollback();
-				if(e.getErrorCode() == 23505){
+				if (e.getErrorCode() == 23505) {
 					throw new DAOException("DNI repetido", e);
-				}else{
+				} else {
 					throw new DAOException(e.getMessage(), e);
 				}
 			} catch (SQLException er) {
@@ -75,7 +75,7 @@ public class ClientDAO implements CRUD<Client> {
 	}
 
 	@Override
-	public Client Read(int dni) throws Exception {
+	public Client Read(int dni) {
 		String sql = "SELECT * FROM users WHERE dni=" + dni;
 		Client client = new Client();
 		Connection c = null;

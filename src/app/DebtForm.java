@@ -7,6 +7,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import exception.ServiceException;
+
 public class DebtForm extends JPanel implements ActionListener {
 
   private FormLabel deb;
@@ -50,4 +52,16 @@ public class DebtForm extends JPanel implements ActionListener {
     this.debtBtn = debtBtn;
   }
 
+  public Boolean check() {
+    try {
+      deb.checkNumber();
+      return true;
+    } catch (ServiceException e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+  }
+
+  public FormLabel getFormLabel(){
+    return deb;
+  }
 }
