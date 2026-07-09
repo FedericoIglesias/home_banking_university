@@ -13,7 +13,7 @@ public class AccountService {
   public AccountService() {
   }
 
-  public List<Account> getAccCl(int id) throws Exception {
+  public List<Account> getAccCl(int id) {
     List<Account> lsAcc = null;
     try {
       lsAcc = acDAO.ReadClientId(id);
@@ -23,7 +23,7 @@ public class AccountService {
     return lsAcc;
   }
 
-  public List<Account> getPoolAcc() throws Exception {
+  public List<Account> getPoolAcc() {
     List<Account> lsAcc = null;
     try {
       lsAcc = acDAO.ReadPool();
@@ -33,7 +33,7 @@ public class AccountService {
     return lsAcc;
   }
 
-  public void deleteAcc(Integer id) throws Exception {
+  public void deleteAcc(Integer id) {
     try {
       acDAO.Delete(id);
     } catch (DAOException e) {
@@ -41,45 +41,45 @@ public class AccountService {
     }
   }
 
-  public void createAccount(Account acc) throws Exception {
+  public void createAccount(Account acc) {
     try {
       acDAO.Insert(acc);
-    } catch (Exception e) {
+    } catch (DAOException e) {
       throw new ServiceException(e.getMessage(), e);
     }
   }
 
-  public List<Account> getAccount(Integer id) throws Exception {
+  public List<Account> getAccount(Integer id) {
     List<Account> acc = null;
     try {
       acc = acDAO.ReadClientId(id);
-    } catch (Exception e) {
+    } catch (DAOException e) {
       throw new ServiceException(e.getMessage(), e);
     }
     return acc;
   }
 
-  public Account getByAlias(String alias) throws Exception {
+  public Account getByAlias(String alias) {
     Account acc = null;
     try {
       acc = acDAO.ReadAlias(alias);
-    } catch (Exception e) {
+    } catch (DAOException e) {
       throw new ServiceException(e.getMessage(), e);
     }
     return acc;
   }
 
-  public Account getByCBU(String CBU) throws Exception {
+  public Account getByCBU(String CBU) {
     Account acc = null;
     try {
       acc = acDAO.ReadCBU(CBU);
-    } catch (Exception e) {
+    } catch (DAOException e) {
       throw new ServiceException(e.getMessage(), e);
     }
     return acc;
   }
 
-  public void updateAllAcc(Integer oriId, Integer dstId, Integer blc) throws Exception {
+  public void updateAllAcc(Integer oriId, Integer dstId, Integer blc) {
     Account acc = null;
     try {
       acc = acDAO.Read(oriId);
@@ -88,7 +88,7 @@ public class AccountService {
       acc = acDAO.Read(dstId);
       acc.setBalance(acc.getBalance() + blc);
       acDAO.Update(acc);
-    } catch (Exception e) {
+    } catch (DAOException e) {
       throw new ServiceException(e.getMessage(), e);
     }
   }

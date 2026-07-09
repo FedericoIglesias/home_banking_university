@@ -11,13 +11,13 @@ import model.Card;
 
 public class CardService {
   private CardDAO cdDAO = new CardDAO();
-  private ManagerPanel manager = new ManagerPanel();
+  private ManagerPanel manager;
 
   public CardService(ManagerPanel manager) {
     this.manager = manager;
   }
 
-  public List<Card> getPoolCd() throws Exception {
+  public List<Card> getPoolCd() {
     List<Card> listCards = null;
     try {
       listCards = cdDAO.ReadPool();
@@ -27,7 +27,7 @@ public class CardService {
     return listCards;
   }
 
-  public List<Card> getClCd(Integer id) throws Exception {
+  public List<Card> getClCd(Integer id) {
     List<Card> listCards = null;
     try {
       listCards = cdDAO.ReadPoolbyCl(id);
@@ -37,7 +37,7 @@ public class CardService {
     return listCards;
   }
 
-  public void deleteCard(String Number) throws Exception {
+  public void deleteCard(String Number) {
     try {
       cdDAO.Delete(Number);
     } catch (DAOException e) {
@@ -45,7 +45,7 @@ public class CardService {
     }
   }
 
-  public void createCard(Integer limit) throws Exception {
+  public void createCard(Integer limit) {
     Card card = new Card();
     card.setClientId(manager.getClient().getId());
     card.setDebt(0);
@@ -53,7 +53,7 @@ public class CardService {
     card.setNumber(Long.toString(new Date().getTime()));
     try {
       cdDAO.Insert(card);
-    } catch (Exception e) {
+    } catch (DAOException e) {
       throw new ServiceException(e.getMessage(), e);
     }
   }

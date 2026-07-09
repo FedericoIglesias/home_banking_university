@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import app.FormLabel;
 import app.ManagerPanel;
+import exception.ServiceException;
 import service.CardService;
 
 public class CardFormPanel extends JPanel implements ActionListener {
@@ -19,13 +20,14 @@ public class CardFormPanel extends JPanel implements ActionListener {
 	private JButton addBtn;
 	private JButton clearBtn;
 	private JButton backBtn;
-	private CardService cardSer = new CardService(manager);
+	private CardService cardSer;
 
 	public CardFormPanel(ManagerPanel manager) {
 		this.manager = manager;
 	}
 
 	public void makePanel() {
+		cardSer = new CardService(manager);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		limit = new FormLabel("Limite diario:");
 		addBtn = new JButton("Agregar");
@@ -55,14 +57,14 @@ public class CardFormPanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public void addCard(){
-			try {
-				cardSer.createCard(Integer.parseInt(limit.getTxt().getText()));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			JOptionPane.showMessageDialog(manager.getFrame(), "Exito al crear tarjeta","Exito",JOptionPane.INFORMATION_MESSAGE);
+	public void addCard() {
+		try {
+			cardSer.createCard(Integer.parseInt(limit.getTxt().getText()));
+			JOptionPane.showMessageDialog(manager.getFrame(), "Exito al crear tarjeta", "Exito",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (ServiceException e) {
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	public void clearInputs() {

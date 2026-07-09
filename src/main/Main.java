@@ -14,7 +14,7 @@ public class Main {
 	public void iniciarManager() {
 		manager = new ManagerPanel();
 		manager.makeManager();
-		manager.makeLoginPanel();	
+		manager.makeLoginPanel();
 	}
 
 	public void showFrame() {

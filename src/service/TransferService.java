@@ -49,37 +49,36 @@ public class TransferService {
   }
 
   public void generateResume(List<Transfer> list) {
-		FileWriter fw = null;
-		String name = LocalDate.now().toString();
-		try {
-			File file = new File("./" + name + ".csv");
-			fw = new FileWriter(file);
-			fw.append("id,origenId,dstId,Saldo,fecha\n");
-			for (Transfer tr : list) {
-				String txt = tr.getId().toString() + "," + tr.getOriginId().toString() + "," + tr.getDstId().toString() + ","
-						+ tr.getBalance().toString() + "," + new Date(tr.getDate()).toString();
-				fw.append(txt + "\n");
-			}
-		} catch (FileNotFoundException e) {
-			throw new ServiceException(e.getMessage(), e);
-		} catch (IOException e) {
-			throw new ServiceException(e.getMessage(), e);
-		} finally {
-			try {
-				fw.close();
-			} catch (IOException e) {
-				throw new ServiceException(e.getMessage(), e);
-			}
-		}
-	}
+    FileWriter fw = null;
+    String name = LocalDate.now().toString();
+    try {
+      File file = new File("./" + name + ".csv");
+      fw = new FileWriter(file);
+      fw.append("id,origenId,dstId,Saldo,fecha\n");
+      for (Transfer tr : list) {
+        String txt = tr.getId().toString() + "," + tr.getOriginId().toString() + "," + tr.getDstId().toString() + ","
+            + tr.getBalance().toString() + "," + new Date(tr.getDate()).toString();
+        fw.append(txt + "\n");
+      }
+    } catch (FileNotFoundException e) {
+      throw new ServiceException(e.getMessage(), e);
+    } catch (IOException e) {
+      throw new ServiceException(e.getMessage(), e);
+    } finally {
+      try {
+        fw.close();
+      } catch (IOException e) {
+        throw new ServiceException(e.getMessage(), e);
+      }
+    }
+  }
 
-  public void createTransfers(Transfer trans) throws Exception {
-		try {
-			trDAO.Insert(trans);
-		} catch (Exception e) {
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
+  public void createTransfers(Transfer trans) {
+    try {
+      trDAO.Insert(trans);
+    } catch (DAOException e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+  }
 
-  
 }

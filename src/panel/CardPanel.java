@@ -28,7 +28,7 @@ public class CardPanel extends JPanel implements ActionListener {
   private ManagerPanel manager;
   private List<Card> list;
   private Buttons btns;
-  private CardService cardSer = new CardService(manager);
+  private CardService cardSer;
   private DebtForm dbForm;
 
   public CardPanel(ManagerPanel manager) {
@@ -38,6 +38,7 @@ public class CardPanel extends JPanel implements ActionListener {
 
   public void makePanel() {
     this.setLayout(new FlowLayout());
+    cardSer = new CardService(manager);
     btns = new Buttons(manager);
     btns.makePanel();
     dbForm = new DebtForm();

@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionListener;
 
 import app.FormLabel;
 import app.ManagerPanel;
+import exception.ServiceException;
 import model.Account;
 import model.Client;
 import model.Transfer;
@@ -118,62 +119,58 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	}
 
 	public void addTransfers() {
-		Boolean ok = true;
 		String[] parts = originId.getList().getSelectedValue().split(" -- ");
 		Transfer trans = new Transfer();
-		if (checkInputs() && getAccountDst() != -1 && checkBalance()) {
+		if (getAccountDst() != -1 && checkBalance()) {
 			try {
+				checkInputs();
 				trans.setBalance(Integer.parseInt(balance.getTxt().getText()));
 				trans.setDate(new Date().getTime());
 				trans.setDstId(getAccountDst());
 				trans.setOriginId(Integer.parseInt(parts[2]));
 				trSer.createTransfers(trans);
 				updateAcc(Integer.parseInt(parts[2]), getAccountDst());
-			} catch (Exception e) {
+			} catch (ServiceException e) {
 				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
-				ok = false;
 			}
-			if (ok) {
-				JOptionPane.showMessageDialog(manager.getFrame(), "Transferencia realizada con exito", "Hecho",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
+			JOptionPane.showMessageDialog(manager.getFrame(), "Transferencia realizada con exito", "Hecho",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
 	public Boolean checkInputs() {
-		Boolean flag = false;
 		int count = 0;
-		if (!balance.checkNumber() || !originId.checkList()) {
-			flag = true;
-		}
-		if (alias.checkBox()) {
-			count++;
-		}
-		if (id.checkBox()) {
-			count++;
-		}
-		if (cbu.checkBox()) {
-			count++;
-		}
-		if (count == 0 || count > 1) {
-			cbu.getBox().setBackground(Color.RED);
-			id.getBox().setBackground(Color.RED);
-			alias.getBox().setBackground(Color.RED);
-		} else {
-			cbu.getBox().setBackground(Color.WHITE);
-			id.getBox().setBackground(Color.WHITE);
-			alias.getBox().setBackground(Color.WHITE);
-		}
-		if (id.checkBox() && !dstId.checkNumber()) {
-			flag = true;
-		} else {
-			dstId.checkText();
-		}
-		if (flag) {
+		try {
+			balance.checkNumber();
+			originId.checkList();
+			if (alias.checkBox()) {
+				count++;
+			}
+			if (id.checkBox()) {
+				count++;
+			}
+			if (cbu.checkBox()) {
+				count++;
+			}
+			if (count == 0 || count > 1) {
+				cbu.getBox().setBackground(Color.RED);
+				id.getBox().setBackground(Color.RED);
+				alias.getBox().setBackground(Color.RED);
+				return false;
+			} else {
+				cbu.getBox().setBackground(Color.WHITE);
+				id.getBox().setBackground(Color.WHITE);
+				alias.getBox().setBackground(Color.WHITE);
+			}
+			if (id.checkBox()) {
+				dstId.checkNumber();
+			} else {
+				dstId.checkText();
+			}
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(),
 					"Recordá: campos no mayor a 30 caracteres,\n seleccionar solo una opción de destino",
 					"Campo invalido", JOptionPane.ERROR_MESSAGE);
-			return false;
 		}
 		return true;
 	}
@@ -229,7 +226,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 			if (alias.checkBox()) {
 				ids = accSer.getByAlias(dstId.getTxt().getText()).getId();
 			}
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error archivos", JOptionPane.ERROR_MESSAGE);
 		}
 		if (ids == null) {
