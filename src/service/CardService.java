@@ -3,10 +3,8 @@ package service;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
-import app.DebtForm;
 import app.ManagerPanel;
 import dao.CardDAO;
 import exception.DAOException;
@@ -82,12 +80,12 @@ public class CardService {
 
   }
 
-  public void makeDeb(JTable table, List<Card> list,String deb) {
+  public void makeDeb(JTable table, List<Card> list, String deb) {
     try {
       if (table.getSelectedRow() == -1) {
         throw new ServiceException("Seleccione un usuario de la tabla", null);
       }
-      
+
       String id = list.get(table.getSelectedRow()).getNumber();
       int debt = Integer.parseInt(deb);
       this.generationCredit(id, debt);
