@@ -1,10 +1,10 @@
 package panel;
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -39,7 +39,7 @@ public class CardPanel extends JPanel implements ActionListener {
   }
 
   public void makePanel() {
-    this.setLayout(new FlowLayout());
+    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     cardSer = new CardService(manager);
     btns = new Buttons(manager);
     btns.makePanel();
