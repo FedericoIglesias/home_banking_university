@@ -94,19 +94,21 @@ public class CardPanel extends JPanel implements ActionListener {
       manager.makeCardFormPanel();
     }
     if (btn == deleteBtn && table.getSelectedRow() != -1) {
-      deleteRow(table.getSelectedRow());
+      this.deleteRow(table.getSelectedRow());
     }
-    if (btn == dbForm.getDebtBtn() && table.getSelectedRow() != -1) {
-      try {
-        dbForm.check();
-        String id = list.get(table.getSelectedRow()).getNumber();
-        int debt = Integer.parseInt(dbForm.getFormLabel().getTxt().getText());
-        cardSer.generationCredit(id, debt);
-      } catch (ServiceException er) {
-        JOptionPane.showMessageDialog(manager.getFrame(), er.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-      }
-      JOptionPane.showMessageDialog(manager.getFrame(), "Debito generado", "Exito!!!", JOptionPane.INFORMATION_MESSAGE);
+    if (btn == dbForm.getDebtBtn()) {
+      this.makeDeb();
+    }
+  }
+
+  public void makeDeb() {
+    try {
+      dbForm.check();
+      cardSer.makeDeb(table, list, dbForm.getFormLabel().getTxt().getText());
       updateList();
+      JOptionPane.showMessageDialog(manager.getFrame(), "Debito generado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+    } catch (ServiceException er) {
+      JOptionPane.showMessageDialog(manager.getFrame(), er.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
 }
