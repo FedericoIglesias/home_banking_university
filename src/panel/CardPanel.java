@@ -17,6 +17,7 @@ import app.ManagerPanel;
 import exception.ServiceException;
 import model.Card;
 import service.CardService;
+import service.Service;
 import table.CardTable;
 
 public class CardPanel extends JPanel implements ActionListener {
@@ -30,6 +31,7 @@ public class CardPanel extends JPanel implements ActionListener {
   private Buttons btns;
   private CardService cardSer;
   private DebtForm dbForm;
+  private Service srv = new Service();
 
   public CardPanel(ManagerPanel manager) {
     super();
@@ -78,10 +80,8 @@ public class CardPanel extends JPanel implements ActionListener {
 
   public void deleteRow(int id) {
     try {
-      cardSer.deleteCard(list.get(id).getNumber());
-      list.remove(id);
-      model.setCardList(list);
-      model.fireTableDataChanged();
+      srv.deleteRow(id, cardSer, list, model);
+      JOptionPane.showMessageDialog(manager.getFrame(), "Tarjeta borrada", "Exito", JOptionPane.INFORMATION_MESSAGE);
     } catch (Exception e) {
       JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
     }
