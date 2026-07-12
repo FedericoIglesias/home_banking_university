@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+import app.FormLabel;
 import dao.ClientDAO;
 import exception.DAOException;
 import exception.ServiceException;
@@ -78,6 +79,17 @@ public class ClientService {
 			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsC;
+	}
+
+	public void checkInputs(FormLabel email, FormLabel name, FormLabel dni, FormLabel pass) {
+		try {
+			email.checkText();
+			name.checkText();
+			dni.checkNumber();
+			pass.checkText();
+		} catch (ServiceException e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

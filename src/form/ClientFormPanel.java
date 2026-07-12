@@ -61,17 +61,6 @@ public class ClientFormPanel extends JPanel implements ActionListener {
 		this.add(backBtn);
 	}
 
-	public void checkInputs() {
-		try {
-			email.checkText();
-			name.checkText();
-			dni.checkNumber();
-			pass.checkText();
-		} catch (ServiceException e) {
-			throw new ServiceException(e.getMessage(), null);
-		}
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object btn = e.getSource();
@@ -95,7 +84,7 @@ public class ClientFormPanel extends JPanel implements ActionListener {
 
 	public void addUser() {
 		try {
-			checkInputs();
+			clSer.checkInputs(email, name, dni, pass);
 			Integer ndi = Integer.parseInt(dni.getTxt().getText());
 			Client c = new Client(name.getTxt().getText(), email.getTxt().getText(), ndi,
 					pass.getTxt().getText(), admin.isSelected());
@@ -103,6 +92,7 @@ public class ClientFormPanel extends JPanel implements ActionListener {
 		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado",
 					JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		JOptionPane.showMessageDialog(manager.getFrame(), "Exito al guardar usuario", "Exito!!",
 				JOptionPane.INFORMATION_MESSAGE);
