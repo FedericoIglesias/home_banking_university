@@ -13,6 +13,7 @@ import javax.swing.JTable;
 
 import app.Buttons;
 import app.ManagerPanel;
+import exception.ServiceException;
 import model.Account;
 import service.AccountService;
 import table.AccTable;
@@ -61,7 +62,7 @@ public class AccPanel extends JPanel implements ActionListener {
 			}
 			model.setAccountList(list);
 			model.fireTableDataChanged();
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -72,7 +73,7 @@ public class AccPanel extends JPanel implements ActionListener {
 			list.remove(id);
 			model.setAccountList(list);
 			model.fireTableDataChanged();
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
 		}
 	}

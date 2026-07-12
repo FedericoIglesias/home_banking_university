@@ -73,7 +73,7 @@ public class CardPanel extends JPanel implements ActionListener {
       }
       model.setCardList(list);
       model.fireTableDataChanged();
-    } catch (Exception e) {
+    } catch (ServiceException e) {
       JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
     }
   }
@@ -82,7 +82,7 @@ public class CardPanel extends JPanel implements ActionListener {
     try {
       srv.deleteRow(id, cardSer, list, model);
       JOptionPane.showMessageDialog(manager.getFrame(), "Tarjeta borrada", "Exito", JOptionPane.INFORMATION_MESSAGE);
-    } catch (Exception e) {
+    } catch (ServiceException e) {
       JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
     }
   }

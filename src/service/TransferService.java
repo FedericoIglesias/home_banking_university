@@ -20,7 +20,7 @@ public class TransferService {
   public TransferService() {
   }
 
-  public List<Transfer> getTrCl(int id) throws Exception {
+  public List<Transfer> getTrCl(int id) {
     List<Transfer> lsTr = null;
     try {
       lsTr = trDAO.ReadTrCl(id);
@@ -30,7 +30,7 @@ public class TransferService {
     return lsTr;
   }
 
-  public List<Transfer> getPoolTr() throws Exception {
+  public List<Transfer> getPoolTr() {
     List<Transfer> lsTr = null;
     try {
       lsTr = trDAO.ReadPool();
@@ -40,7 +40,7 @@ public class TransferService {
     return lsTr;
   }
 
-  public void deleteTr(Integer id) throws Exception {
+  public void deleteTr(Integer id) {
     try {
       trDAO.Delete(id);
     } catch (DAOException e) {

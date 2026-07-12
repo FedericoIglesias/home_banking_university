@@ -13,6 +13,7 @@ import javax.swing.JTable;
 
 import app.Buttons;
 import app.ManagerPanel;
+import exception.ServiceException;
 import model.Client;
 import service.ClientService;
 import table.ClientTable;
@@ -57,7 +58,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 			list = clSer.getPoolCl();
 			model.setClientList(list);
 			model.fireTableDataChanged();
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Lectura", JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -68,7 +69,7 @@ public class ClientPanel extends JPanel implements ActionListener {
 			list.remove(id);
 			model.setClientList(list);
 			model.fireTableDataChanged();
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Borrar", JOptionPane.ERROR_MESSAGE);
 		}
 	}

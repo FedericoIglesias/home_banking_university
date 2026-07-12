@@ -14,7 +14,7 @@ public class ClientService {
 		super();
 	}
 
-	public Client getClient(Integer id) throws Exception {
+	public Client getClient(Integer id) {
 		Client cl = null;
 		try {
 			cl = clDAO.ReadId(id);
@@ -24,7 +24,7 @@ public class ClientService {
 		return cl;
 	}
 
-	public void deleteClient(Integer id) throws Exception {
+	public void deleteClient(Integer id) {
 		try {
 			clDAO.Delete(id);
 		} catch (DAOException e) {
@@ -32,7 +32,7 @@ public class ClientService {
 		}
 	}
 
-	public List<Client> getPoolCl() throws Exception {
+	public List<Client> getPoolCl() {
 		List<Client> lsCl = null;
 		try {
 			lsCl = clDAO.ReadPool();
@@ -42,7 +42,7 @@ public class ClientService {
 		return lsCl;
 	}
 
-	public Client loginUser(Integer dni) throws Exception {
+	public Client loginUser(Integer dni) {
 		Client cl = null;
 		try {
 			cl = clDAO.Read(dni);
@@ -60,21 +60,21 @@ public class ClientService {
 		}
 	}
 
-	public Client getClient(String email) throws Exception {
+	public Client getClient(String email) {
 		Client client = null;
 		try {
 			client = clDAO.Read(email);
-		} catch (Exception e) {
+		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
 		return client;
 	}
 
-	public List<Client> getClientPool() throws Exception {
+	public List<Client> getClientPool() {
 		List<Client> lsC = null;
 		try {
 			lsC = clDAO.ReadPool();
-		} catch (Exception e) {
+		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
 		return lsC;
