@@ -24,7 +24,6 @@ public class TransferPanel extends JPanel implements ActionListener {
 	private TransfersTable model;
 	private JScrollPane scrollPane;
 	private JButton addBtn;
-	private JButton deleteBtn;
 	private JButton resumeBtn;
 	private ManagerPanel manager;
 	private List<Transfer> list;
@@ -43,16 +42,13 @@ public class TransferPanel extends JPanel implements ActionListener {
 		model = new TransfersTable();
 		table = new JTable(model);
 		scrollPane = new JScrollPane(table);
-		deleteBtn = new JButton("Borrar");
 		addBtn = new JButton("Agregar");
 		resumeBtn = new JButton("Crear Resumen");
 		resumeBtn.addActionListener(this);
-		deleteBtn.addActionListener(this);
 		addBtn.addActionListener(this);
 		this.updateList();
 		this.add(scrollPane);
 		if (!manager.getClient().getAdmin()) {
-			this.add(deleteBtn);
 			this.add(addBtn);
 		}
 		this.add(resumeBtn);
@@ -89,9 +85,6 @@ public class TransferPanel extends JPanel implements ActionListener {
 		Object btn = e.getSource();
 		if (btn == addBtn) {
 			manager.makeTransfersFormPanel();
-		}
-		if (btn == deleteBtn && table.getSelectedRow() != -1) {
-			deleteRow(table.getSelectedRow());
 		}
 		if (btn == resumeBtn) {
 			this.generateResume();

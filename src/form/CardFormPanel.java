@@ -64,6 +64,8 @@ public class CardFormPanel extends JPanel implements ActionListener {
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(manager.getFrame(), "Ingrese numero", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
