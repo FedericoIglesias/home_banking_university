@@ -61,14 +61,15 @@ public class ClientFormPanel extends JPanel implements ActionListener {
 		this.add(backBtn);
 	}
 
-	public Boolean checkInputs() {
-		if (name.checkText() && email.checkText() && dni.checkNumber() && pass.checkText()) {
-			return true;
+	public void checkInputs() {
+		try {
+			email.checkText();
+			name.checkText();
+			dni.checkNumber();
+			pass.checkText();
+		} catch (ServiceException e) {
+			throw new ServiceException(e.getMessage(), null);
 		}
-		JOptionPane.showMessageDialog(manager.getFrame(),
-				"e.getMessage()", "Campo invalido",
-				JOptionPane.ERROR_MESSAGE);
-		return false;
 	}
 
 	@Override
@@ -93,20 +94,17 @@ public class ClientFormPanel extends JPanel implements ActionListener {
 	}
 
 	public void addUser() {
-		if (checkInputs()) {
+		try {
+			checkInputs();
 			Integer ndi = Integer.parseInt(dni.getTxt().getText());
 			Client c = new Client(name.getTxt().getText(), email.getTxt().getText(), ndi,
 					pass.getTxt().getText(), admin.isSelected());
-			try {
-				clSer.createClient(c);
-			} catch (ServiceException e) {
-				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			JOptionPane.showMessageDialog(manager.getFrame(), "Exito al guardar usuario", "Exito!!",
-					JOptionPane.INFORMATION_MESSAGE);
+			clSer.createClient(c);
+		} catch (ServiceException e) {
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado",
+					JOptionPane.ERROR_MESSAGE);
 		}
+		JOptionPane.showMessageDialog(manager.getFrame(), "Exito al guardar usuario", "Exito!!",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
-
 }

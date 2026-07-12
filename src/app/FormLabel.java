@@ -68,27 +68,22 @@ public class FormLabel extends JPanel {
 		this.box = box;
 	}
 
-	public Boolean checkText() {
-		Boolean flag = true;
+	public void checkText() {
 		if (txt.getText().length() > 30 || txt.getText().length() == 0) {
 			txt.setBackground(Color.red);
-			return false;
-		} else {
-			txt.setBackground(Color.white);
+			throw new ServiceException("Longitud no mayor a 30 caracteres o campo vacio", null);
 		}
-		return flag;
+		txt.setBackground(Color.white);
 	}
 
-	public Boolean checkNumber() {
+	public void checkNumber() {
 		if (txt.getText().length() > 30 || txt.getText().length() == 0) {
 			txt.setBackground(Color.red);
 			throw new ServiceException("campo con mas de 30 digitos o sin digito", null);
-		} else {
-			txt.setBackground(Color.white);
 		}
+		txt.setBackground(Color.white);
 		try {
 			Integer.parseInt(txt.getText());
-			return true;
 		} catch (NumberFormatException e) {
 			txt.setBackground(Color.red);
 			throw new ServiceException("Verificque que ingresó numeros", e);
@@ -107,12 +102,11 @@ public class FormLabel extends JPanel {
 		return box.isSelected();
 	}
 
-	public Boolean checkList() {
+	public void checkList() {
 		if (list.getSelectedValue() == null) {
 			list.setBackground(Color.red);
-			return false;
+			throw new ServiceException("Ninguna cuenta origen seleccionada", null);
 		}
 		list.setBackground(Color.white);
-		return true;
 	}
 }

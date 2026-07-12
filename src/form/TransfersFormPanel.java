@@ -1,6 +1,5 @@
 package form;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -19,7 +18,6 @@ import app.FormLabel;
 import app.ManagerPanel;
 import exception.ServiceException;
 import model.Account;
-import model.Client;
 import model.Transfer;
 import service.AccountService;
 import service.ClientService;
@@ -42,7 +40,6 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	private AccountService accSer = new AccountService();
 
 	private DefaultListModel<String> list = new DefaultListModel<>();
-	private DefaultListModel<String> listEmails = new DefaultListModel<>();
 
 	public TransfersFormPanel(ManagerPanel manager) {
 		this.manager = manager;
@@ -51,9 +48,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	public void makePanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		dstId = new FormLabel("Cuenta destino, ingrese CBU, Id o alias de cuenta:");
-		getEmail();
-		emails = new FormLabel("Cliente:", listEmails);
-		emails.getList().addListSelectionListener(this);
+		emails = new FormLabel("Cliente:");
 		originId = new FormLabel("Seleccione una cuenta de origen:", list);
 		balance = new FormLabel("Ingrese el valor a transferir: ");
 		cbu = new FormLabel("CBU");
@@ -66,13 +61,9 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		backBtn = new JButton("Volver");
 		backBtn.addActionListener(this);
 		this.add(emails.getLbl());
-		if (manager.getClient().getAdmin()) {
-			this.add(emails.getList());
-		} else {
-			this.add(new JLabel(manager.getClient().getEmail()));
-			this.getAccounts(manager.getClient().getId());
-			originId.getList().setSelectedIndex(0);
-		}
+		this.add(new JLabel(manager.getClient().getEmail()));
+		this.getAccounts(manager.getClient().getId());
+		originId.getList().setSelectedIndex(0);
 		this.add(originId.getLbl());
 		this.add(originId.getList());
 		this.add(dstId.getLbl());
@@ -88,19 +79,6 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		this.add(addBtn);
 		this.add(cleanBtn);
 		this.add(backBtn);
-	}
-
-	private void getEmail() {
-		List<Client> lsCl = null;
-		try {
-			lsCl = clSer.getClientPool();
-		} catch (ServiceException e) {
-			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		int i;
-		for (i = 0; i < lsCl.size(); i++) {
-			listEmails.add(i, lsCl.get(i).getEmail());
-		}
 	}
 
 	private void getAccounts(int id) {
@@ -121,58 +99,24 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 	public void addTransfers() {
 		String[] parts = originId.getList().getSelectedValue().split(" -- ");
 		Transfer trans = new Transfer();
-		if (getAccountDst() != -1 && checkBalance()) {
-			try {
-				checkInputs();
-				trans.setBalance(Integer.parseInt(balance.getTxt().getText()));
-				trans.setDate(new Date().getTime());
-				trans.setDstId(getAccountDst());
-				trans.setOriginId(Integer.parseInt(parts[2]));
-				trSer.createTransfers(trans);
-				updateAcc(Integer.parseInt(parts[2]), getAccountDst());
-			} catch (ServiceException e) {
-				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Archivos", JOptionPane.ERROR_MESSAGE);
-			}
-			JOptionPane.showMessageDialog(manager.getFrame(), "Transferencia realizada con exito", "Hecho",
-					JOptionPane.INFORMATION_MESSAGE);
-		}
-	}
-
-	public Boolean checkInputs() {
-		int count = 0;
+		Integer accID = null;
 		try {
-			balance.checkNumber();
-			originId.checkList();
-			if (alias.checkBox()) {
-				count++;
-			}
-			if (id.checkBox()) {
-				count++;
-			}
-			if (cbu.checkBox()) {
-				count++;
-			}
-			if (count == 0 || count > 1) {
-				cbu.getBox().setBackground(Color.RED);
-				id.getBox().setBackground(Color.RED);
-				alias.getBox().setBackground(Color.RED);
-				return false;
-			} else {
-				cbu.getBox().setBackground(Color.WHITE);
-				id.getBox().setBackground(Color.WHITE);
-				alias.getBox().setBackground(Color.WHITE);
-			}
-			if (id.checkBox()) {
-				dstId.checkNumber();
-			} else {
-				dstId.checkText();
-			}
+			trSer.checkInputTrs(balance, originId, alias, id, cbu, dstId);
+			accID = trSer.getAccountDst(cbu, id, alias, dstId);
+			trSer.checkBalance(originId, balance);
+			trans.setBalance(Integer.parseInt(balance.getTxt().getText()));
+			trans.setDate(new Date().getTime());
+			trans.setDstId(accID);
+			trans.setOriginId(Integer.parseInt(parts[2]));
+			trSer.createTransfers(trans);
+			updateAcc(Integer.parseInt(parts[2]), accID);
 		} catch (ServiceException e) {
-			JOptionPane.showMessageDialog(manager.getFrame(),
-					"Recordá: campos no mayor a 30 caracteres,\n seleccionar solo una opción de destino",
-					"Campo invalido", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
-		return true;
+		JOptionPane.showMessageDialog(manager.getFrame(), "Transferencia realizada con exito", "Hecho",
+				JOptionPane.INFORMATION_MESSAGE);
+
 	}
 
 	private void clearInputs() {
@@ -212,39 +156,6 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 			}
 			getAccounts(id);
 		}
-	}
-
-	public int getAccountDst() {
-		Object ids = null;
-		try {
-			if (cbu.checkBox()) {
-				ids = accSer.getByCBU(dstId.getTxt().getText()).getId();
-			}
-			if (id.checkBox()) {
-				ids = Integer.parseInt(dstId.getTxt().getText());
-			}
-			if (alias.checkBox()) {
-				ids = accSer.getByAlias(dstId.getTxt().getText()).getId();
-			}
-		} catch (ServiceException e) {
-			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error archivos", JOptionPane.ERROR_MESSAGE);
-		}
-		if (ids == null) {
-			JOptionPane.showMessageDialog(manager.getFrame(), "Cuenta destino no encontrada", "No encontrado",
-					JOptionPane.INFORMATION_MESSAGE);
-			return -1;
-		} else {
-			return (int) ids;
-		}
-	}
-
-	public Boolean checkBalance() {
-		String[] parts = originId.getList().getSelectedValue().split(" -- ");
-		if (Integer.parseInt(balance.getTxt().getText()) > Integer.parseInt(parts[1])) {
-			JOptionPane.showMessageDialog(manager.getFrame(), "Insuficiente saldo", "Sin fondos", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		return true;
 	}
 
 	public void updateAcc(Integer oriId, Integer dstId) {
