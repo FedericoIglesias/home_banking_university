@@ -94,7 +94,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		List<Client> lsCl = null;
 		try {
 			lsCl = clSer.getClientPool();
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		int i;
@@ -108,7 +108,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		list.removeAllElements();
 		try {
 			lsAcc = accSer.getAccount(id);
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		int i;
@@ -207,7 +207,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 			try {
 				id = clSer.getClient(selected).getId();
 
-			} catch (Exception e1) {
+			} catch (ServiceException e1) {
 				JOptionPane.showMessageDialog(manager.getFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			getAccounts(id);
@@ -251,7 +251,7 @@ public class TransfersFormPanel extends JPanel implements ActionListener, ListSe
 		Integer blc = Integer.parseInt(balance.getTxt().getText());
 		try {
 			accSer.updateAllAcc(oriId, dstId, blc);
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Problema de archivos",
 					JOptionPane.ERROR_MESSAGE);
 		}

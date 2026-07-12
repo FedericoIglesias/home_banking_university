@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import app.FormLabel;
 import app.ManagerPanel;
+import exception.ServiceException;
 import model.Account;
 import model.Client;
 import service.AccountService;
@@ -88,7 +89,7 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(manager.getFrame(), "Saldo invalido", "Error de numero",
 						JOptionPane.ERROR_MESSAGE);
 				ok = false;
-			} catch (Exception e) {
+			} catch (ServiceException e) {
 				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado", JOptionPane.ERROR_MESSAGE);
 				ok = false;
 			}
@@ -146,7 +147,7 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 	private void getClient() {
 		try {
 			client = clSer.getClient(email.getTxt().getText());
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Extrayendo datos",
 					JOptionPane.ERROR_MESSAGE);
 		}
