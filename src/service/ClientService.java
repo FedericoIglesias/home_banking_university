@@ -19,10 +19,13 @@ public class ClientService {
 		Client cl = null;
 		try {
 			cl = clDAO.ReadId(id);
+			if (cl.getId() == null) {
+				throw new ServiceException("cliente no encontrado", null);
+			}
+			return cl;
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
-		return cl;
 	}
 
 	public void deleteClient(Integer id) {
@@ -62,13 +65,16 @@ public class ClientService {
 	}
 
 	public Client getClient(String email) {
-		Client client = null;
+		Client cl = null;
 		try {
-			client = clDAO.Read(email);
+			cl = clDAO.Read(email);
+			if (cl.getId() == null) {
+				throw new ServiceException("cliente no encontrado", null);
+			}
+			return cl;
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
-		return client;
 	}
 
 	public List<Client> getClientPool() {

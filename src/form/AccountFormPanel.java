@@ -1,6 +1,5 @@
 package form;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -23,7 +22,7 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 	private ManagerPanel manager;
 	private FormLabel balance;
 	private FormLabel alias;
-	private FormLabel email;
+	private FormLabel id;
 	private JButton addBtn;
 	private JButton clearBtn;
 	private JButton backBtn;
@@ -40,7 +39,7 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 	public void makePanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		list = new FormLabel("Tipo de cuenta:", t);
-		email = new FormLabel("Email:");
+		id = new FormLabel("ID:");
 		balance = new FormLabel("Saldo:");
 		alias = new FormLabel("Alias:");
 		addBtn = new JButton("Agregar");
@@ -49,8 +48,14 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 		clearBtn.addActionListener(this);
 		backBtn = new JButton("Volver");
 		backBtn.addActionListener(this);
-		this.add(email.getLbl());
-		this.add(email.getTxt());
+		if (!manager.getClient().getAdmin()) {
+			id.getLbl().setText("ID: " + manager.getClient().getId().toString());
+			id.getTxt().setText(manager.getClient().getId().toString());
+			this.add(id.getLbl());
+		} else {
+			this.add(id.getLbl());
+			this.add(id.getTxt());
+		}
 		this.add(list.getLbl());
 		this.add(list.getList());
 		this.add(balance.getLbl());
@@ -77,85 +82,27 @@ public class AccountFormPanel extends JPanel implements ActionListener {
 	}
 
 	private void addAccount() {
-		Boolean ok = true;
 		String CBU = Long.toString(new Date().getTime());
-		if (checkInputs()) {
-			try {
-				Integer blc = Integer.parseInt(balance.getTxt().getText());
-				Account acc = new Account(blc, CBU, alias.getTxt().getText(), list.getList().getSelectedValue(),
-						client.getId());
-				accSer.createAccount(acc);
-			} catch (NumberFormatException e) {
-				JOptionPane.showMessageDialog(manager.getFrame(), "Saldo invalido", "Error de numero",
-						JOptionPane.ERROR_MESSAGE);
-				ok = false;
-			} catch (ServiceException e) {
-				JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Guardado", JOptionPane.ERROR_MESSAGE);
-				ok = false;
-			}
-			if (ok) {
-				JOptionPane.showMessageDialog(manager.getFrame(), "Cuenta creada con exito!!!", "Exito",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		}
-	}
-
-	private Boolean checkInputs() {
-		Boolean flag = false;
-		if (alias.getTxt().getText().length() == 0 || alias.getTxt().getText().length() > 30) {
-			alias.getTxt().setBackground(Color.RED);
-			flag = true;
-		} else {
-			alias.getTxt().setBackground(Color.WHITE);
-		}
-		if (email.getTxt().getText().length() == 0 || email.getTxt().getText().length() > 30) {
-			email.getTxt().setBackground(Color.RED);
-			flag = true;
-		} else {
-			email.getTxt().setBackground(Color.WHITE);
-			getClient();
-		}
-
-		if (list.getList().getSelectedValue() == null) {
-			list.getList().setBackground(Color.RED);
-			flag = true;
-		} else {
-			list.getList().setBackground(Color.WHITE);
-		}
-
 		try {
-			Integer.parseInt(balance.getTxt().getText());
-			balance.getTxt().setBackground(Color.WHITE);
-			if (balance.getTxt().getText().length() > 10) {
-				balance.getTxt().setBackground(Color.RED);
-				flag = true;
-			}
+			accSer.checkInputs(alias, id, balance, list);
+			client = clSer.getClient(Integer.parseInt(id.getTxt().getText()));
+			Integer blc = Integer.parseInt(balance.getTxt().getText());
+			Account acc = new Account(blc, CBU, alias.getTxt().getText(), list.getList().getSelectedValue(),
+					client.getId());
+			accSer.createAccount(acc);
+			JOptionPane.showMessageDialog(manager.getFrame(), "Cuenta creada con exito!!!", "Exito",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException e) {
-			balance.getTxt().setBackground(Color.RED);
-			flag = true;
-		}
-		if (flag) {
-			JOptionPane.showMessageDialog(manager.getFrame(),
-					"Recordá: campos no mayor a 30 caracteres, balance deben ser n°", "Campo invalido",
+			JOptionPane.showMessageDialog(manager.getFrame(), "Saldo invalido", "Error de numero",
 					JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		return true;
-
-	}
-
-	private void getClient() {
-		try {
-			client = clSer.getClient(email.getTxt().getText());
 		} catch (ServiceException e) {
-			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error Extrayendo datos",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(manager.getFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void clearInputs() {
 		alias.getTxt().setText("");
-		email.getTxt().setText("");
+		id.getTxt().setText("");
 		list.getList().clearSelection();
 		balance.getTxt().setText("");
 	}

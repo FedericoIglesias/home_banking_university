@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+import app.FormLabel;
 import dao.AccountDAO;
 import exception.DAOException;
 import exception.ServiceException;
@@ -89,6 +90,19 @@ public class AccountService {
       acc.setBalance(acc.getBalance() + blc);
       acDAO.Update(acc);
     } catch (DAOException e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+  }
+
+  public void checkInputs(FormLabel alias, FormLabel id, FormLabel balance, FormLabel list) {
+    try {
+      alias.checkText();
+      id.checkNumber();
+      list.checkList();
+      balance.checkNumber();
+    } catch (NumberFormatException e) {
+      throw new ServiceException(e.getMessage(), e);
+    } catch (ServiceException e) {
       throw new ServiceException(e.getMessage(), e);
     }
   }
